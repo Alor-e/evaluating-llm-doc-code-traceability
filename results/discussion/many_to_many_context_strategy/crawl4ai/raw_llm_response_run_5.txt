@@ -1,0 +1,453 @@
+{
+  "traces": [
+    {
+      "doc_id": "doc_1",
+      "traced_artifacts": [
+        {
+          "artifact_id": 8,
+          "title": "CrawlResult",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet discusses output formats, which directly relates to the CrawlResult class that defines the structure of the crawl output.",
+          "trace_chain": "doc_1 -> CrawlResult",
+          "trace_chain_explanation": "The document directly discusses the output format, which is encapsulated in the CrawlResult class."
+        },
+        {
+          "artifact_id": 9,
+          "title": "CrawlResult.cleaned_html",
+          "relationship": "implicit",
+          "relationship_type": "includes",
+          "relationship_explanation": "As the document discusses output formats, it implicitly relates to the cleaned_html attribute of CrawlResult, which is likely part of the output format.",
+          "trace_chain": "doc_1 -> CrawlResult -> CrawlResult.cleaned_html",
+          "trace_chain_explanation": "The document discusses output formats, which are defined in CrawlResult, which includes the cleaned_html attribute."
+        },
+        {
+          "artifact_id": 13,
+          "title": "CrawlResult.html",
+          "relationship": "implicit",
+          "relationship_type": "includes",
+          "relationship_explanation": "The document's discussion of output formats implicitly relates to the html attribute of CrawlResult, which is likely a key part of the output.",
+          "trace_chain": "doc_1 -> CrawlResult -> CrawlResult.html",
+          "trace_chain_explanation": "The document covers output formats, which are defined in CrawlResult, which includes the html attribute."
+        },
+        {
+          "artifact_id": 15,
+          "title": "CrawlResult.markdown",
+          "relationship": "implicit",
+          "relationship_type": "includes",
+          "relationship_explanation": "The document's focus on output formats implicitly relates to the markdown attribute of CrawlResult, which is likely one of the output format options.",
+          "trace_chain": "doc_1 -> CrawlResult -> CrawlResult.markdown",
+          "trace_chain_explanation": "The document discusses output formats, which are defined in CrawlResult, which includes the markdown attribute as a possible output format."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_2",
+      "traced_artifacts": [
+        {
+          "artifact_id": 7,
+          "title": "CosineStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/cosine.md', which directly relates to the CosineStrategy class that implements cosine similarity-based extraction.",
+          "trace_chain": "doc_2 -> CosineStrategy",
+          "trace_chain_explanation": "The document directly discusses the cosine extraction strategy, which is implemented in the CosineStrategy class."
+        },
+        {
+          "artifact_id": 21,
+          "title": "ExtractionStrategy",
+          "relationship": "implicit",
+          "relationship_type": "extends",
+          "relationship_explanation": "As CosineStrategy is likely an implementation of an extraction strategy, it implicitly relates to the ExtractionStrategy base class.",
+          "trace_chain": "doc_2 -> CosineStrategy -> ExtractionStrategy",
+          "trace_chain_explanation": "The document discusses the cosine strategy, which is implemented by CosineStrategy, which extends the ExtractionStrategy base class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_3",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "implicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/chunking.md', which implicitly relates to the ChunkingStrategy abstract base class that defines the interface for chunking strategies.",
+          "trace_chain": "doc_3 -> ChunkingStrategy",
+          "trace_chain_explanation": "The document discusses chunking, which is defined by the ChunkingStrategy abstract base class."
+        },
+        {
+          "artifact_id": 22,
+          "title": "FixedLengthWordChunking",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "As the document discusses chunking, it implicitly relates to FixedLengthWordChunking, which is likely one implementation of a chunking strategy.",
+          "trace_chain": "doc_3 -> ChunkingStrategy -> FixedLengthWordChunking",
+          "trace_chain_explanation": "The document covers chunking, which is defined by ChunkingStrategy and implemented by FixedLengthWordChunking."
+        },
+        {
+          "artifact_id": 25,
+          "title": "NlpSentenceChunking",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document's focus on chunking implicitly relates to NlpSentenceChunking, which is likely another implementation of a chunking strategy.",
+          "trace_chain": "doc_3 -> ChunkingStrategy -> NlpSentenceChunking",
+          "trace_chain_explanation": "The document discusses chunking, which is defined by ChunkingStrategy and implemented by NlpSentenceChunking."
+        },
+        {
+          "artifact_id": 26,
+          "title": "RegexChunking",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "As the document covers chunking, it implicitly relates to RegexChunking, which is likely another implementation of a chunking strategy.",
+          "trace_chain": "doc_3 -> ChunkingStrategy -> RegexChunking",
+          "trace_chain_explanation": "The document talks about chunking, which is defined by ChunkingStrategy and implemented by RegexChunking."
+        },
+        {
+          "artifact_id": 27,
+          "title": "SlidingWindowChunking",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document's discussion of chunking implicitly relates to SlidingWindowChunking, which is likely another implementation of a chunking strategy.",
+          "trace_chain": "doc_3 -> ChunkingStrategy -> SlidingWindowChunking",
+          "trace_chain_explanation": "The document covers chunking, which is defined by ChunkingStrategy and implemented by SlidingWindowChunking."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_4",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/basic/quickstart.md', which likely provides a quick start guide for using the AsyncWebCrawler class.",
+          "trace_chain": "doc_4 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The quickstart document likely demonstrates the usage of AsyncWebCrawler for basic crawling operations."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "As a quickstart guide, the document likely demonstrates how to run a crawl, which would involve using the arun() method of AsyncWebCrawler.",
+          "trace_chain": "doc_4 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The quickstart document likely shows how to use AsyncWebCrawler, which involves calling its arun() method to perform a crawl."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_5",
+      "traced_artifacts": [
+        {
+          "artifact_id": 1,
+          "title": "AsyncPlaywrightCrawlerStrategy",
+          "relationship": "implicit",
+          "relationship_type": "configures",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/basic/browser-config.md', which likely relates to configuring the AsyncPlaywrightCrawlerStrategy for browser interactions.",
+          "trace_chain": "doc_5 -> AsyncPlaywrightCrawlerStrategy",
+          "trace_chain_explanation": "The browser configuration document likely provides information on how to configure AsyncPlaywrightCrawlerStrategy for different browser settings."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_10",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/basic/content-selection.md', which likely relates to using AsyncWebCrawler for selecting content during crawling.",
+          "trace_chain": "doc_10 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The content selection document likely demonstrates how to use AsyncWebCrawler to select specific content during crawling operations."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_12",
+      "traced_artifacts": [
+        {
+          "artifact_id": 23,
+          "title": "JsonCssExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/css.md', which directly relates to using CSS selectors for extraction, which is implemented in the JsonCssExtractionStrategy class.",
+          "trace_chain": "doc_12 -> JsonCssExtractionStrategy",
+          "trace_chain_explanation": "The CSS extraction document likely demonstrates how to use JsonCssExtractionStrategy for content extraction based on CSS selectors."
+        },
+        {
+          "artifact_id": 21,
+          "title": "ExtractionStrategy",
+          "relationship": "implicit",
+          "relationship_type": "extends",
+          "relationship_explanation": "As JsonCssExtractionStrategy is an implementation of an extraction strategy, it implicitly relates to the ExtractionStrategy base class.",
+          "trace_chain": "doc_12 -> JsonCssExtractionStrategy -> ExtractionStrategy",
+          "trace_chain_explanation": "The document discusses CSS-based extraction, which is implemented by JsonCssExtractionStrategy, which extends the ExtractionStrategy base class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_17",
+      "traced_artifacts": [
+        {
+          "artifact_id": 24,
+          "title": "LLMExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/llm.md', which directly relates to using LLM (Language Model) for extraction, implemented in the LLMExtractionStrategy class.",
+          "trace_chain": "doc_17 -> LLMExtractionStrategy",
+          "trace_chain_explanation": "The LLM extraction document likely demonstrates how to use LLMExtractionStrategy for content extraction using language models."
+        },
+        {
+          "artifact_id": 21,
+          "title": "ExtractionStrategy",
+          "relationship": "implicit",
+          "relationship_type": "extends",
+          "relationship_explanation": "As LLMExtractionStrategy is an implementation of an extraction strategy, it implicitly relates to the ExtractionStrategy base class.",
+          "trace_chain": "doc_17 -> LLMExtractionStrategy -> ExtractionStrategy",
+          "trace_chain_explanation": "The document discusses LLM-based extraction, which is implemented by LLMExtractionStrategy, which extends the ExtractionStrategy base class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_22",
+      "traced_artifacts": [
+        {
+          "artifact_id": 21,
+          "title": "ExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/overview.md', which likely provides an overview of extraction strategies, directly relating to the ExtractionStrategy base class.",
+          "trace_chain": "doc_22 -> ExtractionStrategy",
+          "trace_chain_explanation": "The extraction overview document likely discusses the ExtractionStrategy base class and its various implementations."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_23",
+      "traced_artifacts": [
+        {
+          "artifact_id": 8,
+          "title": "CrawlResult",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/basic/output-formats.md', which directly relates to the CrawlResult class that defines the structure of the crawl output.",
+          "trace_chain": "doc_23 -> CrawlResult",
+          "trace_chain_explanation": "The output formats document likely describes the structure of CrawlResult, which encapsulates the crawl output."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_24",
+      "traced_artifacts": [
+        {
+          "artifact_id": 23,
+          "title": "JsonCssExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/css-advanced.md', which directly relates to advanced CSS-based extraction, likely implemented in the JsonCssExtractionStrategy class.",
+          "trace_chain": "doc_24 -> JsonCssExtractionStrategy",
+          "trace_chain_explanation": "The advanced CSS extraction document likely demonstrates advanced usage of JsonCssExtractionStrategy for content extraction based on complex CSS selectors."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_38",
+      "traced_artifacts": [
+        {
+          "artifact_id": 7,
+          "title": "CosineStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/cosine.md', which directly relates to the CosineStrategy class that implements cosine similarity-based extraction.",
+          "trace_chain": "doc_38 -> CosineStrategy",
+          "trace_chain_explanation": "The cosine extraction document likely describes the implementation and usage of the CosineStrategy class for content extraction."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_43",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/chunking.md', which directly relates to the ChunkingStrategy abstract base class that defines the interface for chunking strategies.",
+          "trace_chain": "doc_43 -> ChunkingStrategy",
+          "trace_chain_explanation": "The chunking document likely describes the ChunkingStrategy interface and its various implementations."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_60",
+      "traced_artifacts": [
+        {
+          "artifact_id": 23,
+          "title": "JsonCssExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/css.md', which directly relates to using CSS selectors for extraction, implemented in the JsonCssExtractionStrategy class.",
+          "trace_chain": "doc_60 -> JsonCssExtractionStrategy",
+          "trace_chain_explanation": "The CSS extraction document likely demonstrates how to use JsonCssExtractionStrategy for content extraction based on CSS selectors."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_63",
+      "traced_artifacts": [
+        {
+          "artifact_id": 24,
+          "title": "LLMExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/llm.md', which directly relates to using LLM (Language Model) for extraction, implemented in the LLMExtractionStrategy class.",
+          "trace_chain": "doc_63 -> LLMExtractionStrategy",
+          "trace_chain_explanation": "The LLM extraction document likely demonstrates how to use LLMExtractionStrategy for content extraction using language models."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_73",
+      "traced_artifacts": [
+        {
+          "artifact_id": 21,
+          "title": "ExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/overview.md', which likely provides an overview of extraction strategies, directly relating to the ExtractionStrategy base class.",
+          "trace_chain": "doc_73 -> ExtractionStrategy",
+          "trace_chain_explanation": "The extraction overview document likely discusses the ExtractionStrategy base class and its various implementations."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_76",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/chunking.md', which directly relates to the ChunkingStrategy abstract base class that defines the interface for chunking strategies.",
+          "trace_chain": "doc_76 -> ChunkingStrategy",
+          "trace_chain_explanation": "The chunking document likely describes the ChunkingStrategy interface and its various implementations."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_84",
+      "traced_artifacts": [
+        {
+          "artifact_id": 23,
+          "title": "JsonCssExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/css-advanced.md', which directly relates to advanced CSS-based extraction, likely implemented in the JsonCssExtractionStrategy class.",
+          "trace_chain": "doc_84 -> JsonCssExtractionStrategy",
+          "trace_chain_explanation": "The advanced CSS extraction document likely demonstrates advanced usage of JsonCssExtractionStrategy for content extraction based on complex CSS selectors."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_85",
+      "traced_artifacts": [
+        {
+          "artifact_id": 24,
+          "title": "LLMExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/llm.md', which directly relates to using LLM (Language Model) for extraction, implemented in the LLMExtractionStrategy class.",
+          "trace_chain": "doc_85 -> LLMExtractionStrategy",
+          "trace_chain_explanation": "The LLM extraction document likely demonstrates how to use LLMExtractionStrategy for content extraction using language models."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_90",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/chunking.md', which directly relates to the ChunkingStrategy abstract base class that defines the interface for chunking strategies.",
+          "trace_chain": "doc_90 -> ChunkingStrategy",
+          "trace_chain_explanation": "The chunking document likely describes the ChunkingStrategy interface and its various implementations."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_97",
+      "traced_artifacts": [
+        {
+          "artifact_id": 7,
+          "title": "CosineStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/cosine.md', which directly relates to the CosineStrategy class that implements cosine similarity-based extraction.",
+          "trace_chain": "doc_97 -> CosineStrategy",
+          "trace_chain_explanation": "The cosine extraction document likely describes the implementation and usage of the CosineStrategy class for content extraction."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_101",
+      "traced_artifacts": [
+        {
+          "artifact_id": 23,
+          "title": "JsonCssExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/css-advanced.md', which directly relates to advanced CSS-based extraction, likely implemented in the JsonCssExtractionStrategy class.",
+          "trace_chain": "doc_101 -> JsonCssExtractionStrategy",
+          "trace_chain_explanation": "The advanced CSS extraction document likely demonstrates advanced usage of JsonCssExtractionStrategy for content extraction based on complex CSS selectors."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_106",
+      "traced_artifacts": [
+        {
+          "artifact_id": 7,
+          "title": "CosineStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/cosine.md', which directly relates to the CosineStrategy class that implements cosine similarity-based extraction.",
+          "trace_chain": "doc_106 -> CosineStrategy",
+          "trace_chain_explanation": "The cosine extraction document likely describes the implementation and usage of the CosineStrategy class for content extraction."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_108",
+      "traced_artifacts": [
+        {
+          "artifact_id": 23,
+          "title": "JsonCssExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/css.md', which directly relates to using CSS selectors for extraction, implemented in the JsonCssExtractionStrategy class.",
+          "trace_chain": "doc_108 -> JsonCssExtractionStrategy",
+          "trace_chain_explanation": "The CSS extraction document likely demonstrates how to use JsonCssExtractionStrategy for content extraction based on CSS selectors."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_112",
+      "traced_artifacts": [
+        {
+          "artifact_id": 23,
+          "title": "JsonCssExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet is from 'docs/md_v2/extraction/css.md', which directly relates to using CSS selectors for extraction, implemented in the JsonCssExtractionStrategy class.",
+          "trace_chain": "doc_112 -> JsonCssExtractionStrategy",
+          "trace_chain_explanation": "The CSS extraction document likely demonstrates how to use JsonCssExtractionStrategy for content extraction based on CSS selectors."
+        }
+      ]
+    }
+  ]
+}

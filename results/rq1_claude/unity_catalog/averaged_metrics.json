@@ -1,0 +1,201 @@
+{
+  "dataset": "unity_catalog",
+  "num_runs": 5,
+  "averaged_metrics": {
+    "true_positives": 116.0,
+    "false_positives": 17.4,
+    "false_negatives": 39.0,
+    "precision": 0.8695350426081794,
+    "recall": 0.7483870967741935,
+    "f1_score": 0.8042973612480762,
+    "per_run": [
+      {
+        "run_id": 1,
+        "metrics": {
+          "true_positives": 119,
+          "false_positives": 14,
+          "false_negatives": 36,
+          "precision": 0.8947368421052632,
+          "recall": 0.7677419354838709,
+          "f1_score": 0.8263888888888888
+        }
+      },
+      {
+        "run_id": 2,
+        "metrics": {
+          "true_positives": 114,
+          "false_positives": 18,
+          "false_negatives": 41,
+          "precision": 0.8636363636363636,
+          "recall": 0.7354838709677419,
+          "f1_score": 0.7944250871080138
+        }
+      },
+      {
+        "run_id": 3,
+        "metrics": {
+          "true_positives": 119,
+          "false_positives": 18,
+          "false_negatives": 36,
+          "precision": 0.8686131386861314,
+          "recall": 0.7677419354838709,
+          "f1_score": 0.8150684931506849
+        }
+      },
+      {
+        "run_id": 4,
+        "metrics": {
+          "true_positives": 110,
+          "false_positives": 18,
+          "false_negatives": 45,
+          "precision": 0.859375,
+          "recall": 0.7096774193548387,
+          "f1_score": 0.7773851590106007
+        }
+      },
+      {
+        "run_id": 5,
+        "metrics": {
+          "true_positives": 118,
+          "false_positives": 19,
+          "false_negatives": 37,
+          "precision": 0.8613138686131386,
+          "recall": 0.7612903225806451,
+          "f1_score": 0.8082191780821917
+        }
+      }
+    ],
+    "per_granularity": {
+      "Method": {
+        "precision": 0.8583344721353138,
+        "recall": 0.7253521126760564,
+        "f1_score": 0.7860826127818795,
+        "true_positives": 103.0,
+        "false_positives": 17.0,
+        "false_negatives": 39.0,
+        "per_run": [
+          {
+            "run_id": 1,
+            "metrics": {
+              "true_positives": 106,
+              "false_positives": 14,
+              "false_negatives": 36,
+              "precision": 0.8833333333333333,
+              "recall": 0.7464788732394366,
+              "f1_score": 0.8091603053435115
+            }
+          },
+          {
+            "run_id": 2,
+            "metrics": {
+              "true_positives": 101,
+              "false_positives": 16,
+              "false_negatives": 41,
+              "precision": 0.8632478632478633,
+              "recall": 0.7112676056338029,
+              "f1_score": 0.7799227799227798
+            }
+          },
+          {
+            "run_id": 3,
+            "metrics": {
+              "true_positives": 106,
+              "false_positives": 18,
+              "false_negatives": 36,
+              "precision": 0.8548387096774194,
+              "recall": 0.7464788732394366,
+              "f1_score": 0.7969924812030075
+            }
+          },
+          {
+            "run_id": 4,
+            "metrics": {
+              "true_positives": 97,
+              "false_positives": 18,
+              "false_negatives": 45,
+              "precision": 0.8434782608695652,
+              "recall": 0.6830985915492958,
+              "f1_score": 0.754863813229572
+            }
+          },
+          {
+            "run_id": 5,
+            "metrics": {
+              "true_positives": 105,
+              "false_positives": 19,
+              "false_negatives": 37,
+              "precision": 0.8467741935483871,
+              "recall": 0.7394366197183099,
+              "f1_score": 0.7894736842105263
+            }
+          }
+        ]
+      },
+      "Class": {
+        "precision": 0.9733333333333334,
+        "recall": 1.0,
+        "f1_score": 0.9857142857142858,
+        "true_positives": 13.0,
+        "false_positives": 0.4,
+        "false_negatives": 0.0,
+        "per_run": [
+          {
+            "run_id": 1,
+            "metrics": {
+              "true_positives": 13,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0
+            }
+          },
+          {
+            "run_id": 2,
+            "metrics": {
+              "true_positives": 13,
+              "false_positives": 2,
+              "false_negatives": 0,
+              "precision": 0.8666666666666667,
+              "recall": 1.0,
+              "f1_score": 0.9285714285714286
+            }
+          },
+          {
+            "run_id": 3,
+            "metrics": {
+              "true_positives": 13,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0
+            }
+          },
+          {
+            "run_id": 4,
+            "metrics": {
+              "true_positives": 13,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0
+            }
+          },
+          {
+            "run_id": 5,
+            "metrics": {
+              "true_positives": 13,
+              "false_positives": 0,
+              "false_negatives": 0,
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1_score": 1.0
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "traces": [
+    {
+      "doc_id": "doc_1",
+      "traced_artifacts": [
+        {
+          "artifact_id": 8,
+          "title": "CrawlResult",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet discusses output formats, and CrawlResult is explicitly mentioned as the class that defines the structure of the crawl result.",
+          "trace_chain": "doc_1 -> CrawlResult",
+          "trace_chain_explanation": "The document directly references the CrawlResult class, which defines the output format."
+        },
+        {
+          "artifact_id": 13,
+          "title": "CrawlResult.html",
+          "relationship": "implicit",
+          "relationship_type": "includes",
+          "relationship_explanation": "The snippet mentions that the crawl result includes the raw HTML content, which corresponds to the 'html' attribute of CrawlResult.",
+          "trace_chain": "doc_1 -> CrawlResult -> CrawlResult.html",
+          "trace_chain_explanation": "The document discusses the CrawlResult class, which includes the 'html' attribute."
+        },
+        {
+          "artifact_id": 9,
+          "title": "CrawlResult.cleaned_html",
+          "relationship": "implicit",
+          "relationship_type": "includes",
+          "relationship_explanation": "The snippet mentions that the crawl result includes cleaned HTML content, which corresponds to the 'cleaned_html' attribute of CrawlResult.",
+          "trace_chain": "doc_1 -> CrawlResult -> CrawlResult.cleaned_html",
+          "trace_chain_explanation": "The document discusses the CrawlResult class, which includes the 'cleaned_html' attribute."
+        },
+        {
+          "artifact_id": 15,
+          "title": "CrawlResult.markdown",
+          "relationship": "implicit",
+          "relationship_type": "includes",
+          "relationship_explanation": "The snippet mentions that the crawl result includes markdown content, which corresponds to the 'markdown' attribute of CrawlResult.",
+          "trace_chain": "doc_1 -> CrawlResult -> CrawlResult.markdown",
+          "trace_chain_explanation": "The document discusses the CrawlResult class, which includes the 'markdown' attribute."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_2",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet explicitly mentions ChunkingStrategy as an abstract base class for all chunking strategies.",
+          "trace_chain": "doc_2 -> ChunkingStrategy",
+          "trace_chain_explanation": "The document directly references the ChunkingStrategy class, which is the base class for chunking implementations."
+        },
+        {
+          "artifact_id": 26,
+          "title": "RegexChunking",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The snippet explicitly mentions RegexChunking as a concrete implementation of ChunkingStrategy.",
+          "trace_chain": "doc_2 -> ChunkingStrategy -> RegexChunking",
+          "trace_chain_explanation": "The document discusses ChunkingStrategy and then mentions RegexChunking as an implementation of it."
+        },
+        {
+          "artifact_id": 22,
+          "title": "FixedLengthWordChunking",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The snippet explicitly mentions FixedLengthWordChunking as another concrete implementation of ChunkingStrategy.",
+          "trace_chain": "doc_2 -> ChunkingStrategy -> FixedLengthWordChunking",
+          "trace_chain_explanation": "The document discusses ChunkingStrategy and then mentions FixedLengthWordChunking as an implementation of it."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_3",
+      "traced_artifacts": [
+        {
+          "artifact_id": 21,
+          "title": "ExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "defines",
+          "relationship_explanation": "The document snippet explicitly mentions ExtractionStrategy as a base class for implementing content extraction strategies.",
+          "trace_chain": "doc_3 -> ExtractionStrategy",
+          "trace_chain_explanation": "The document directly references the ExtractionStrategy class, which is the base class for extraction implementations."
+        },
+        {
+          "artifact_id": 7,
+          "title": "CosineStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The snippet explicitly mentions CosineStrategy as a concrete implementation of ExtractionStrategy.",
+          "trace_chain": "doc_3 -> ExtractionStrategy -> CosineStrategy",
+          "trace_chain_explanation": "The document discusses ExtractionStrategy and then mentions CosineStrategy as an implementation of it."
+        },
+        {
+          "artifact_id": 24,
+          "title": "LLMExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The snippet explicitly mentions LLMExtractionStrategy as another concrete implementation of ExtractionStrategy.",
+          "trace_chain": "doc_3 -> ExtractionStrategy -> LLMExtractionStrategy",
+          "trace_chain_explanation": "The document discusses ExtractionStrategy and then mentions LLMExtractionStrategy as an implementation of it."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_4",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet explicitly mentions AsyncWebCrawler and discusses its session management capabilities.",
+          "trace_chain": "doc_4 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The document directly references the AsyncWebCrawler class and its session management features."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet discusses the crawling process, which is likely implemented in the arun() method of AsyncWebCrawler.",
+          "trace_chain": "doc_4 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document mentions AsyncWebCrawler's crawling capabilities, which are typically implemented in the arun() method."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_5",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet explicitly mentions creating an instance of AsyncWebCrawler for crawling.",
+          "trace_chain": "doc_5 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The document directly references creating and using an AsyncWebCrawler instance."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet shows an example of using the arun() method of AsyncWebCrawler to perform a crawl.",
+          "trace_chain": "doc_5 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document demonstrates the usage of the arun() method on an AsyncWebCrawler instance."
+        },
+        {
+          "artifact_id": 8,
+          "title": "CrawlResult",
+          "relationship": "implicit",
+          "relationship_type": "returns",
+          "relationship_explanation": "The snippet shows that the result of the arun() method is assigned to a variable, which is likely an instance of CrawlResult.",
+          "trace_chain": "doc_5 -> AsyncWebCrawler -> AsyncWebCrawler.arun() -> CrawlResult",
+          "trace_chain_explanation": "The document shows the arun() method being called, which is expected to return a CrawlResult object."
+        }
+      ]
+    }
+  ]
+}

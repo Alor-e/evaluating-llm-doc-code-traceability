@@ -1,0 +1,29 @@
+{
+  "total": 862,
+  "patterns": {
+    "EXTENDED": 135,
+    "SHORTENED": 0,
+    "REORDERED": 0,
+    "SUBSTITUTED": 11
+  },
+  "correctness": {
+    "COMPLETE_MATCH": 391,
+    "PARTIAL_MATCH_INTERMEDIATE": 146,
+    "PARTIAL_MATCH_PREFIX": 43,
+    "PARTIAL_MATCH_SUFFIX": 0,
+    "INCORRECT": 282
+  },
+  "patterns_percentages": {
+    "EXTENDED": 92.46575342465754,
+    "SHORTENED": 0.0,
+    "REORDERED": 0.0,
+    "SUBSTITUTED": 7.534246575342466
+  },
+  "correctness_percentages": {
+    "COMPLETE_MATCH": 45.359628770301626,
+    "PARTIAL_MATCH_INTERMEDIATE": 16.937354988399072,
+    "PARTIAL_MATCH_PREFIX": 4.988399071925754,
+    "PARTIAL_MATCH_SUFFIX": 0.0,
+    "INCORRECT": 32.71461716937355
+  }
+}

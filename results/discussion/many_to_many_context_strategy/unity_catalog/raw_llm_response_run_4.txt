@@ -1,0 +1,133 @@
+{
+  "traces": [
+    {
+      "doc_id": "doc_1",
+      "traced_artifacts": [
+        {
+          "artifact_id": 29,
+          "title": "SchemaCli.createSchema",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the creation of a schema, which is directly implemented by the SchemaCli.createSchema method. The method takes a SchemasApi object and a JSONObject as parameters, matching the description in the snippet.",
+          "trace_chain": "doc_1 -> SchemaCli.createSchema -> SchemaRepository.createSchema",
+          "trace_chain_explanation": "The SchemaCli.createSchema method likely calls the SchemaRepository.createSchema method to persist the schema data."
+        },
+        {
+          "artifact_id": 35,
+          "title": "SchemaRepository.createSchema",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the SchemaRepository.createSchema method is likely used by SchemaCli.createSchema to persist the schema data to the database.",
+          "trace_chain": "doc_1 -> SchemaCli.createSchema -> SchemaRepository.createSchema",
+          "trace_chain_explanation": "The CLI method calls the repository method to perform the actual schema creation in the database."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_2",
+      "traced_artifacts": [
+        {
+          "artifact_id": 60,
+          "title": "VolumeCli.createVolume",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the creation of a volume, which is directly implemented by the VolumeCli.createVolume method. The method takes a VolumesApi object and a JSONObject as parameters, matching the description in the snippet.",
+          "trace_chain": "doc_2 -> VolumeCli.createVolume -> VolumeRepository.createVolume",
+          "trace_chain_explanation": "The VolumeCli.createVolume method likely calls the VolumeRepository.createVolume method to persist the volume data."
+        },
+        {
+          "artifact_id": 66,
+          "title": "VolumeRepository.createVolume",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the VolumeRepository.createVolume method is likely used by VolumeCli.createVolume to persist the volume data to the database.",
+          "trace_chain": "doc_2 -> VolumeCli.createVolume -> VolumeRepository.createVolume",
+          "trace_chain_explanation": "The CLI method calls the repository method to perform the actual volume creation in the database."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_3",
+      "traced_artifacts": [
+        {
+          "artifact_id": 16,
+          "title": "FunctionCli.createFunction",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the creation of a function, which is directly implemented by the FunctionCli.createFunction method. The method takes a FunctionsApi object and a JSONObject as parameters, matching the description in the snippet.",
+          "trace_chain": "doc_3 -> FunctionCli.createFunction -> FunctionRepository.createFunction",
+          "trace_chain_explanation": "The FunctionCli.createFunction method likely calls the FunctionRepository.createFunction method to persist the function data."
+        },
+        {
+          "artifact_id": 21,
+          "title": "FunctionRepository.createFunction",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the FunctionRepository.createFunction method is likely used by FunctionCli.createFunction to persist the function data to the database.",
+          "trace_chain": "doc_3 -> FunctionCli.createFunction -> FunctionRepository.createFunction",
+          "trace_chain_explanation": "The CLI method calls the repository method to perform the actual function creation in the database."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_4",
+      "traced_artifacts": [
+        {
+          "artifact_id": 59,
+          "title": "TemporaryVolumeCredentialsService.generateTemporaryVolumeCredentials",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes generating temporary volume credentials, which is directly implemented by the TemporaryVolumeCredentialsService.generateTemporaryVolumeCredentials method. The method takes a GenerateTemporaryVolumeCredential object as a parameter, matching the description in the snippet.",
+          "trace_chain": "doc_4 -> TemporaryVolumeCredentialsService.generateTemporaryVolumeCredentials",
+          "trace_chain_explanation": "This method directly implements the functionality described in the document."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_5",
+      "traced_artifacts": [
+        {
+          "artifact_id": 45,
+          "title": "TableCli.createTable",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the creation of a table, which is directly implemented by the TableCli.createTable method. The method takes a TablesApi object and a JSONObject as parameters, matching the description in the snippet.",
+          "trace_chain": "doc_5 -> TableCli.createTable -> TableRepository.createTable",
+          "trace_chain_explanation": "The TableCli.createTable method likely calls the TableRepository.createTable method to persist the table data."
+        },
+        {
+          "artifact_id": 50,
+          "title": "TableRepository.createTable",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the TableRepository.createTable method is likely used by TableCli.createTable to persist the table data to the database.",
+          "trace_chain": "doc_5 -> TableCli.createTable -> TableRepository.createTable",
+          "trace_chain_explanation": "The CLI method calls the repository method to perform the actual table creation in the database."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_6",
+      "traced_artifacts": [
+        {
+          "artifact_id": 0,
+          "title": "CatalogCli.createCatalog",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the creation of a catalog, which is directly implemented by the CatalogCli.createCatalog method. The method takes a CatalogsApi object and a JSONObject as parameters, matching the description in the snippet.",
+          "trace_chain": "doc_6 -> CatalogCli.createCatalog -> CatalogRepository.addCatalog",
+          "trace_chain_explanation": "The CatalogCli.createCatalog method likely calls the CatalogRepository.addCatalog method to persist the catalog data."
+        },
+        {
+          "artifact_id": 6,
+          "title": "CatalogRepository.addCatalog",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the CatalogRepository.addCatalog method is likely used by CatalogCli.createCatalog to persist the catalog data to the database.",
+          "trace_chain": "doc_6 -> CatalogCli.createCatalog -> CatalogRepository.addCatalog",
+          "trace_chain_explanation": "The CLI method calls the repository method to perform the actual catalog creation in the database."
+        }
+      ]
+    }
+  ]
+}

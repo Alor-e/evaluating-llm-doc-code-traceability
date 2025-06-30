@@ -1,0 +1,534 @@
+[
+  {
+    "artifact_title": "CatalogCli.createCatalog",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/CatalogCli.java",
+    "artifact_content": "private static String createCatalog(CatalogsApi catalogsApi, JSONObject json) throws JsonProcessingException, ApiException { CreateCatalog createCatalog = new CreateCatalog() .name(json.getString(CliParams.NAME.getServerParam())) .comment(json.optString(CliParams.COMMENT.getServerParam(), null)) .properties(CliUtils.extractProperties(objectMapper, json)); CatalogInfo catalogInfo = catalogsApi.createCatalog(createCatalog); return objectWriter.writeValueAsString(catalogInfo); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogCli.deleteCatalog",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/CatalogCli.java",
+    "artifact_content": "private static String deleteCatalog(CatalogsApi catalogsApi, JSONObject json) throws ApiException { String catalogName = json.getString(NAME_PARAM); catalogsApi.deleteCatalog( catalogName, json.has(CliParams.FORCE.getServerParam()) && Boolean.parseBoolean(json.getString(CliParams.FORCE.getServerParam()))); return CliUtils.EMPTY_JSON; } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogCli.getCatalog",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/CatalogCli.java",
+    "artifact_content": "private static String getCatalog(CatalogsApi catalogsApi, JSONObject json) throws JsonProcessingException, ApiException { String catalogName = json.getString(NAME_PARAM); return objectWriter.writeValueAsString(catalogsApi.getCatalog(catalogName)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogCli.listCatalogs",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/CatalogCli.java",
+    "artifact_content": "private static String listCatalogs(CatalogsApi catalogsApi, JSONObject json) throws JsonProcessingException, ApiException { int maxResults = 100; if (json.has(CliParams.MAX_RESULTS.getServerParam())) { maxResults = json.getInt(CliParams.MAX_RESULTS.getServerParam()); } return objectWriter.writeValueAsString( catalogsApi.listCatalogs(null, maxResults).getCatalogs()); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogCli.updateCatalog",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/CatalogCli.java",
+    "artifact_content": "private static String updateCatalog(CatalogsApi catalogsApi, JSONObject json) throws JsonProcessingException, ApiException { String catalogName = json.getString(NAME_PARAM); json.remove(NAME_PARAM); if (json.length() == 0) { List<CliParams> optionalParams = CliUtils.cliOptions.get(CliUtils.CATALOG).get(CliUtils.UPDATE).getOptionalParams(); String errorMessage = \"No parameters to update, please provide one of:\"; for (CliParams param : optionalParams) { errorMessage += \"\n --\" + param.val(); } throw new CliException(errorMessage); } UpdateCatalog updateCatalog = new UpdateCatalog() .newName(json.optString(CliParams.NEW_NAME.getServerParam(), null)) .comment(json.optString(CliParams.COMMENT.getServerParam(), null)) .properties(CliUtils.extractProperties(objectMapper, json)); CatalogInfo catalogInfo = catalogsApi.updateCatalog(catalogName, updateCatalog); return objectWriter.writeValueAsString(catalogInfo); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogInfoDAO",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/dao/CatalogInfoDAO.java",
+    "artifact_content": "package io.unitycatalog.server.persist.dao; import io.unitycatalog.server.model.CatalogInfo; import jakarta.persistence.*; import java.time.Instant; import java.util.Date; import java.util.UUID; import lombok.*; import lombok.experimental.SuperBuilder; @Entity @Table(name = \"uc_catalogs\") // Lombok @Getter @Setter @AllArgsConstructor @NoArgsConstructor @SuperBuilder @EqualsAndHashCode(callSuper = true) public class CatalogInfoDAO extends IdentifiableDAO { @Column(name = \"comment\") private String comment; @Column(name = \"created_at\") private Date createdAt; @Column(name = \"updated_at\") private Date updatedAt; public static CatalogInfoDAO from(CatalogInfo catalogInfo) { return CatalogInfoDAO.builder() .id(catalogInfo.getId() != null ? UUID.fromString(catalogInfo.getId()) : null) .name(catalogInfo.getName()) .comment(catalogInfo.getComment()) .createdAt( catalogInfo.getCreatedAt() != null ? Date.from(Instant.ofEpochMilli(catalogInfo.getCreatedAt())) : new Date()) .updatedAt( catalogInfo.getUpdatedAt() != null ? Date.from(Instant.ofEpochMilli(catalogInfo.getUpdatedAt())) : null) .build(); } public CatalogInfo toCatalogInfo() { return new CatalogInfo() .id(getId().toString()) .name(getName()) .comment(comment) .createdAt(createdAt.getTime()) .updatedAt(updatedAt != null ? updatedAt.getTime() : null); } }",
+    "artifact_type": "Class",
+    "traceability_granularity": "Class"
+  },
+  {
+    "artifact_title": "CatalogRepository.addCatalog",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/CatalogRepository.java",
+    "artifact_content": "public CatalogInfo addCatalog(CreateCatalog createCatalog) { ValidationUtils.validateSqlObjectName(createCatalog.getName()); CatalogInfo catalogInfo = new CatalogInfo() .id(java.util.UUID.randomUUID().toString()) .comment(createCatalog.getComment()) .name(createCatalog.getName()) .createdAt(System.currentTimeMillis()) .properties(createCatalog.getProperties()); try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { if (getCatalogDAO(session, createCatalog.getName()) != null) { throw new BaseException( ErrorCode.ALREADY_EXISTS, \"Catalog already exists: \" + createCatalog.getName()); } CatalogInfoDAO catalogInfoDAO = CatalogInfoDAO.from(catalogInfo); PropertyDAO.from(catalogInfo.getProperties(), catalogInfoDAO.getId(), Constants.CATALOG) .forEach(session::persist); session.persist(catalogInfoDAO); tx.commit(); LOGGER.info(\"Added catalog: {}\", catalogInfo.getName()); return catalogInfo; } catch (Exception e) { tx.rollback(); throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogRepository.deleteCatalog",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/CatalogRepository.java",
+    "artifact_content": "public void deleteCatalog(String name, boolean force) { try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { CatalogInfoDAO catalogInfo = getCatalogDAO(session, name); if (catalogInfo != null) { // Check if there are any schemas in the catalog List<SchemaInfo> schemas = SCHEMA_REPOSITORY .listSchemas( session, catalogInfo.getId(), catalogInfo.getName(), Optional.of(1), Optional.empty()) .getSchemas(); if (schemas != null && !schemas.isEmpty()) { if (!force) { throw new BaseException( ErrorCode.FAILED_PRECONDITION, \"Cannot delete catalog with schemas: \" + name); } String nextToken = null; do { ListSchemasResponse listSchemasResponse = SCHEMA_REPOSITORY.listSchemas( session, catalogInfo.getId(), catalogInfo.getName(), Optional.empty(), Optional.ofNullable(nextToken)); for (SchemaInfo schemaInfo : listSchemasResponse.getSchemas()) { SCHEMA_REPOSITORY.deleteSchema( session, catalogInfo.getId(), catalogInfo.getName(), schemaInfo.getName(), true); } nextToken = listSchemasResponse.getNextPageToken(); } while (nextToken != null); } PropertyRepository.findProperties(session, catalogInfo.getId(), Constants.CATALOG) .forEach(session::remove); session.remove(catalogInfo); tx.commit(); LOGGER.info(\"Deleted catalog: {}\", catalogInfo.getName()); } else { throw new BaseException(ErrorCode.NOT_FOUND, \"Catalog not found: \" + name); } } catch (Exception e) { tx.rollback(); throw e; } } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogRepository.getCatalog",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/CatalogRepository.java",
+    "artifact_content": "public CatalogInfoDAO getCatalogDAO(Session session, String name) { Query<CatalogInfoDAO> query = session.createQuery(\"FROM CatalogInfoDAO WHERE name = :value\", CatalogInfoDAO.class); query.setParameter(\"value\", name); query.setMaxResults(1); return query.uniqueResult(); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogRepository.listCatalogs",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/CatalogRepository.java",
+    "artifact_content": "public ListCatalogsResponse listCatalogs( Optional<Integer> maxResults, Optional<String> pageToken) { try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); try { ListCatalogsResponse response = listCatalogs(session, maxResults, pageToken); tx.commit(); return response; } catch (Exception e) { tx.rollback(); throw e; } } } public ListCatalogsResponse listCatalogs( Session session, Optional<Integer> maxResults, Optional<String> pageToken) { List<CatalogInfoDAO> catalogInfoDAOList = LISTING_HELPER.listEntity(session, maxResults, pageToken, null); String nextPageToken = LISTING_HELPER.getNextPageToken(catalogInfoDAOList, maxResults); List<CatalogInfo> result = new ArrayList<>(); for (CatalogInfoDAO catalogInfoDAO : catalogInfoDAOList) { CatalogInfo catalogInfo = catalogInfoDAO.toCatalogInfo(); RepositoryUtils.attachProperties( catalogInfo, catalogInfo.getId(), Constants.CATALOG, session); result.add(catalogInfo); } return new ListCatalogsResponse().catalogs(result).nextPageToken(nextPageToken); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogRepository.updateCatalog",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/CatalogRepository.java",
+    "artifact_content": "public CatalogInfo updateCatalog(String name, UpdateCatalog updateCatalog) { if (updateCatalog.getNewName() != null) { ValidationUtils.validateSqlObjectName(updateCatalog.getNewName()); } // can make this just update once we have an identifier that is not the name try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { CatalogInfoDAO catalogInfoDAO = getCatalogDAO(session, name); if (catalogInfoDAO == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Catalog not found: \" + name); } if (updateCatalog.getNewName() == null && updateCatalog.getComment() == null && (updateCatalog.getProperties() == null || updateCatalog.getProperties().isEmpty())) { tx.rollback(); CatalogInfo catalogInfo = catalogInfoDAO.toCatalogInfo(); return RepositoryUtils.attachProperties( catalogInfo, catalogInfo.getId(), Constants.CATALOG, session); } if (updateCatalog.getNewName() != null && getCatalogDAO(session, updateCatalog.getNewName()) != null) { throw new BaseException( ErrorCode.ALREADY_EXISTS, \"Catalog already exists: \" + updateCatalog.getNewName()); } if (updateCatalog.getNewName() != null) { catalogInfoDAO.setName(updateCatalog.getNewName()); } if (updateCatalog.getComment() != null) { catalogInfoDAO.setComment(updateCatalog.getComment()); } if (updateCatalog.getProperties() != null && !updateCatalog.getProperties().isEmpty()) { PropertyRepository.findProperties(session, catalogInfoDAO.getId(), Constants.CATALOG) .forEach(session::remove); session.flush(); PropertyDAO.from(updateCatalog.getProperties(), catalogInfoDAO.getId(), Constants.CATALOG) .forEach(session::persist); } catalogInfoDAO.setUpdatedAt(new Date()); session.merge(catalogInfoDAO); tx.commit(); CatalogInfo catalogInfo = catalogInfoDAO.toCatalogInfo(); return RepositoryUtils.attachProperties( catalogInfo, catalogInfo.getId(), Constants.CATALOG, session); } catch (Exception e) { tx.rollback(); throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogService.createCatalog",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/CatalogService.java",
+    "artifact_content": "@Post(\"\") public HttpResponse createCatalog(CreateCatalog createCatalog) { return HttpResponse.ofJson(CATALOG_REPOSITORY.addCatalog(createCatalog)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogService.deleteCatalog",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/CatalogService.java",
+    "artifact_content": "@Delete(\"/{name}\") public HttpResponse deleteCatalog( @Param(\"name\") String name, @Param(\"force\") Optional<Boolean> force) { CATALOG_REPOSITORY.deleteCatalog(name, force.orElse(false)); return HttpResponse.of(HttpStatus.OK); } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogService.getCatalog",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/CatalogService.java",
+    "artifact_content": "@Get(\"/{name}\") public HttpResponse getCatalog(@Param(\"name\") String name) { return HttpResponse.ofJson(CATALOG_REPOSITORY.getCatalog(name)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogService.listCatalogs",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/CatalogService.java",
+    "artifact_content": "@Get(\"\") public HttpResponse listCatalogs( @Param(\"max_results\") Optional<Integer> maxResults, @Param(\"page_token\") Optional<String> pageToken) { return HttpResponse.ofJson(CATALOG_REPOSITORY.listCatalogs(maxResults, pageToken)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "CatalogService.updateCatalog",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/CatalogService.java",
+    "artifact_content": "@Patch(\"/{name}\") public HttpResponse updateCatalog(@Param(\"name\") String name, UpdateCatalog updateCatalog) { return HttpResponse.ofJson(CATALOG_REPOSITORY.updateCatalog(name, updateCatalog)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionCli.createFunction",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/FunctionCli.java",
+    "artifact_content": "private static String createFunction(FunctionsApi functionsApi, JSONObject json) throws JsonProcessingException, ApiException { CliUtils.resolveFullNameToThreeLevelNamespace(json); FunctionParameterInfos inputParams = CliUtils.parseInputParams(json); CreateFunction createFunction = objectMapper.readValue(json.toString(), CreateFunction.class); createFunction.setInputParams(inputParams); if (createFunction.getIsDeterministic() == null) { createFunction.setIsDeterministic(true); } if (createFunction.getParameterStyle() == null) { createFunction.setParameterStyle(CreateFunction.ParameterStyleEnum.S); } if (createFunction.getFullDataType() == null) { createFunction.setFullDataType(createFunction.getDataType().name()); } if (createFunction.getIsNullCall() == null) { createFunction.setIsNullCall(true); } if (createFunction.getRoutineBody() == null) { createFunction.setRoutineBody(CreateFunction.RoutineBodyEnum.EXTERNAL); } if (createFunction.getRoutineDefinition() == null) { createFunction.setRoutineDefinition(EMPTY); } if (createFunction.getSecurityType() == null) { createFunction.setSecurityType(CreateFunction.SecurityTypeEnum.DEFINER); } if (createFunction.getSpecificName() == null) { createFunction.setSpecificName(createFunction.getName()); } if (createFunction.getSqlDataAccess() == null) { createFunction.setSqlDataAccess(CreateFunction.SqlDataAccessEnum.NO_SQL); } if (createFunction.getExternalLanguage() == null) { createFunction.setExternalLanguage(\"python\"); } return objectWriter.writeValueAsString( functionsApi.createFunction(new CreateFunctionRequest().functionInfo(createFunction))); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionCli.deleteFunction",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/FunctionCli.java",
+    "artifact_content": "private static String deleteFunction(FunctionsApi functionsApi, JSONObject json) throws ApiException { String functionFullName = json.getString(CliParams.FULL_NAME.getServerParam()); functionsApi.deleteFunction(functionFullName); return EMPTY; } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionCli.getFunction",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/FunctionCli.java",
+    "artifact_content": "private static String getFunction(FunctionsApi functionsApi, JSONObject json) throws JsonProcessingException, ApiException { String functionFullName = json.getString(CliParams.FULL_NAME.getServerParam()); return objectWriter.writeValueAsString(functionsApi.getFunction(functionFullName)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionCli.listFunctions",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/FunctionCli.java",
+    "artifact_content": "private static String listFunctions(FunctionsApi functionsApi, JSONObject json) throws JsonProcessingException, ApiException { String catalogName = json.getString(CliParams.CATALOG_NAME.getServerParam()); String schemaName = json.getString(CliParams.SCHEMA_NAME.getServerParam()); int maxResults = 100; if (json.has(CliParams.MAX_RESULTS.getServerParam())) { maxResults = json.getInt(CliParams.MAX_RESULTS.getServerParam()); } return objectWriter.writeValueAsString( functionsApi.listFunctions(catalogName, schemaName, maxResults, null).getFunctions()); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionInfoDAO",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/dao/FunctionInfoDAO.java",
+    "artifact_content": "package io.unitycatalog.server.persist.dao; import io.unitycatalog.server.model.ColumnTypeName; import io.unitycatalog.server.model.FunctionInfo; import jakarta.persistence.*; import java.util.List; import java.util.UUID; import lombok.*; import lombok.experimental.SuperBuilder; import org.hibernate.annotations.SQLRestriction; // Hibernate annotations @Entity @Table(name = \"uc_functions\") // Lombok annotations @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(callSuper = true) @SuperBuilder public class FunctionInfoDAO extends IdentifiableDAO { @Column(name = \"schema_id\") private UUID schemaId; @Column(name = \"comment\") private String comment; @Column(name = \"created_at\") private Long createdAt; @Column(name = \"updated_at\") private Long updatedAt; @Column(name = \"data_type\") private ColumnTypeName dataType; @Column(name = \"full_data_type\") private String fullDataType; @Column(name = \"external_language\") private String externalLanguage; @Column(name = \"is_deterministic\") private Boolean isDeterministic; @Column(name = \"is_null_call\") private Boolean isNullCall; @Column(name = \"parameter_style\") private FunctionInfo.ParameterStyleEnum parameterStyle; @Column(name = \"routine_body\") private FunctionInfo.RoutineBodyEnum routineBody; @Column(name = \"routine_definition\") private String routineDefinition; @Column(name = \"sql_data_access\") private FunctionInfo.SqlDataAccessEnum sqlDataAccess; @Column(name = \"security_type\") private FunctionInfo.SecurityTypeEnum securityType; @Column(name = \"specific_name\") private String specificName; @OneToMany(mappedBy = \"function\", cascade = CascadeType.ALL, orphanRemoval = true) @SQLRestriction(\"input_or_return = 0\") private List<FunctionParameterInfoDAO> inputParams; @OneToMany(mappedBy = \"function\", cascade = CascadeType.ALL, orphanRemoval = true) @SQLRestriction(\"input_or_return = 1\") private List<FunctionParameterInfoDAO> returnParams; public static FunctionInfoDAO from(FunctionInfo functionInfo) { FunctionInfoDAO functionInfoDAO = FunctionInfoDAO.builder() .id( functionInfo.getFunctionId() != null ? UUID.fromString(functionInfo.getFunctionId()) : null) .name(functionInfo.getName()) .comment(functionInfo.getComment()) .createdAt(functionInfo.getCreatedAt()) .updatedAt(functionInfo.getUpdatedAt()) .dataType(functionInfo.getDataType()) .fullDataType(functionInfo.getFullDataType()) .externalLanguage(functionInfo.getExternalLanguage()) .isDeterministic(functionInfo.getIsDeterministic()) .isNullCall(functionInfo.getIsNullCall()) .parameterStyle(functionInfo.getParameterStyle()) .routineBody(functionInfo.getRoutineBody()) .routineDefinition(functionInfo.getRoutineDefinition()) .sqlDataAccess(functionInfo.getSqlDataAccess()) .securityType(functionInfo.getSecurityType()) .specificName(functionInfo.getSpecificName()) .inputParams( FunctionParameterInfoDAO.from( functionInfo.getInputParams(), FunctionParameterInfoDAO.InputOrReturnEnum.INPUT)) .returnParams( FunctionParameterInfoDAO.from( functionInfo.getReturnParams(), FunctionParameterInfoDAO.InputOrReturnEnum.RETURN)) .build(); for (FunctionParameterInfoDAO inputParam : functionInfoDAO.inputParams) { inputParam.setFunction(functionInfoDAO); } for (FunctionParameterInfoDAO returnParam : functionInfoDAO.returnParams) { returnParam.setFunction(functionInfoDAO); } return functionInfoDAO; } public FunctionInfo toFunctionInfo() { FunctionInfo functionInfo = new FunctionInfo() .functionId(getId().toString()) .name(getName()) .comment(comment) .createdAt(createdAt) .updatedAt(updatedAt) .dataType(dataType) .fullDataType(fullDataType) .externalLanguage(externalLanguage) .isDeterministic(isDeterministic) .isNullCall(isNullCall) .parameterStyle(parameterStyle) .routineBody(routineBody) .routineDefinition(routineDefinition) .sqlDataAccess(sqlDataAccess) .securityType(securityType) .specificName(specificName); if (!inputParams.isEmpty()) { functionInfo.inputParams(FunctionParameterInfoDAO.toFunctionParameterInfos(inputParams)); } if (!returnParams.isEmpty()) { functionInfo.returnParams(FunctionParameterInfoDAO.toFunctionParameterInfos(returnParams)); } return functionInfo; } }",
+    "artifact_type": "Class",
+    "traceability_granularity": "Class"
+  },
+  {
+    "artifact_title": "FunctionRepository.createFunction",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/FunctionRepository.java",
+    "artifact_content": "public FunctionInfo createFunction(CreateFunctionRequest createFunctionRequest) { ValidationUtils.validateSqlObjectName(createFunctionRequest.getFunctionInfo().getName()); CreateFunction createFunction = createFunctionRequest.getFunctionInfo(); FunctionInfo functionInfo = new FunctionInfo() .functionId(UUID.randomUUID().toString()) .name(createFunction.getName()) .catalogName(createFunction.getCatalogName()) .schemaName(createFunction.getSchemaName()) .comment(createFunction.getComment()) .properties(createFunction.getProperties()) .createdAt(System.currentTimeMillis()) .dataType(createFunction.getDataType()) .fullDataType(createFunction.getFullDataType()) .inputParams(createFunction.getInputParams()) .returnParams(createFunction.getReturnParams()) .fullName( createFunction.getCatalogName() + \".\" + createFunction.getSchemaName() + \".\" + createFunction.getName()) .externalLanguage(createFunction.getExternalLanguage()) .isDeterministic(createFunction.getIsDeterministic()) .isNullCall(createFunction.getIsNullCall()) .parameterStyle( FunctionInfo.ParameterStyleEnum.valueOf(createFunction.getParameterStyle().name())) .routineBody( FunctionInfo.RoutineBodyEnum.valueOf(createFunction.getRoutineBody().name())) .routineDefinition(createFunction.getRoutineDefinition()) .securityType( FunctionInfo.SecurityTypeEnum.valueOf(createFunction.getSecurityType().name())) .specificName(createFunction.getSpecificName()); if (createFunction.getSqlDataAccess() != null) { functionInfo.setSqlDataAccess( FunctionInfo.SqlDataAccessEnum.valueOf(createFunction.getSqlDataAccess().toString())); } try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { String catalogName = createFunction.getCatalogName(); String schemaName = createFunction.getSchemaName(); SchemaInfoDAO schemaInfo = SCHEMA_REPOSITORY.getSchemaDAO(session, catalogName, schemaName); if (schemaInfo == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Schema not found: \" + schemaName); } if (getFunctionDAO(session, catalogName, schemaName, createFunction.getName()) != null) { throw new BaseException( ErrorCode.ALREADY_EXISTS, \"Function already exists: \" + createFunction.getName()); } FunctionInfoDAO dao = FunctionInfoDAO.from(functionInfo); dao.setSchemaId(schemaInfo.getId()); dao.getInputParams() .forEach( p -> { p.setId(UUID.randomUUID()); p.setFunction(dao); }); dao.getReturnParams() .forEach( p -> { p.setId(UUID.randomUUID()); p.setFunction(dao); }); session.persist(dao); tx.commit(); return functionInfo; } catch (Exception e) { tx.rollback(); throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionRepository.deleteFunction",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/FunctionRepository.java",
+    "artifact_content": "public void deleteFunction(String name, Boolean force) { try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { String[] parts = name.split(\"\\.\"); if (parts.length != 3) { throw new BaseException(ErrorCode.INVALID_ARGUMENT, \"Invalid function name: \" + name); } String catalogName = parts[0], schemaName = parts[1], functionName = parts[2]; SchemaInfoDAO schemaInfo = SCHEMA_REPOSITORY.getSchemaDAO(session, catalogName, schemaName); if (schemaInfo == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Schema not found: \" + schemaName); } deleteFunction(session, schemaInfo.getId(), functionName); tx.commit(); LOGGER.info(\"Deleted function: {}\", functionName); } catch (Exception e) { tx.rollback(); throw e; } } } public void deleteFunction(Session session, UUID schemaId, String functionName) { FunctionInfoDAO functionInfoDAO = getFunctionDAO(session, schemaId, functionName); if (functionInfoDAO == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Function not found: \" + functionName); } session.remove(functionInfoDAO); } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionRepository.getFunction",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/FunctionRepository.java",
+    "artifact_content": "public FunctionInfo getFunction(String name) { FunctionInfo functionInfo = null; try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); try { String[] parts = name.split(\"\\.\"); if (parts.length != 3) { throw new BaseException(ErrorCode.INVALID_ARGUMENT, \"Invalid function name: \" + name); } String catalogName = parts[0], schemaName = parts[1], functionName = parts[2]; FunctionInfoDAO functionInfoDAO = getFunctionDAO(session, catalogName, schemaName, functionName); if (functionInfoDAO == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Function not found: \" + name); } functionInfo = functionInfoDAO.toFunctionInfo(); addNamespaceInfo(functionInfo, catalogName, schemaName); tx.commit(); } catch (Exception e) { tx.rollback(); throw e; } } catch (Exception e) { LOGGER.error(\"Error getting function\", e); return null; } return functionInfo; }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionRepository.listFunctions",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/FunctionRepository.java",
+    "artifact_content": "public ListFunctionsResponse listFunctions( String catalogName, String schemaName, Optional<Integer> maxResults, Optional<String> pageToken) { try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); try { UUID schemaId = getSchemaId(session, catalogName, schemaName); ListFunctionsResponse response = listFunctions(session, schemaId, catalogName, schemaName, maxResults, pageToken); tx.commit(); return response; } catch (Exception e) { tx.rollback(); throw e; } } } public ListFunctionsResponse listFunctions( Session session, UUID schemaId, String catalogName, String schemaName, Optional<Integer> maxResults, Optional<String> pageToken) { List<FunctionInfoDAO> functionInfoDAOList = LISTING_HELPER.listEntity(session, maxResults, pageToken, schemaId); String nextPageToken = LISTING_HELPER.getNextPageToken(functionInfoDAOList, maxResults); List<FunctionInfo> result = new ArrayList<>(); for (FunctionInfoDAO functionInfoDAO : functionInfoDAOList) { FunctionInfo functionInfo = functionInfoDAO.toFunctionInfo(); RepositoryUtils.attachProperties( functionInfo, functionInfo.getFunctionId(), Constants.FUNCTION, session); addNamespaceData(functionInfo, catalogName, schemaName); result.add(functionInfo); } return new ListFunctionsResponse().functions(result).nextPageToken(nextPageToken); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionService.createFunction",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/FunctionService.java",
+    "artifact_content": "@Post(\"\") public HttpResponse createFunction(CreateFunctionRequest createFunctionRequest) { return HttpResponse.ofJson(FUNCTION_REPOSITORY.createFunction(createFunctionRequest)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionService.deleteFunction",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/FunctionService.java",
+    "artifact_content": "@Delete(\"/{name}\") public HttpResponse deleteFunction( @Param(\"name\") String name, @Param(\"force\") Optional<Boolean> force) { FUNCTION_REPOSITORY.deleteFunction(name, force.orElse(false)); return HttpResponse.of(HttpStatus.OK); } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionService.getFunction",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/FunctionService.java",
+    "artifact_content": "@Get(\"/{name}\") public HttpResponse getFunction(@Param(\"name\") String name) { return HttpResponse.ofJson(FUNCTION_REPOSITORY.getFunction(name)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "FunctionService.listFunctions",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/FunctionService.java",
+    "artifact_content": "@Get(\"\") public HttpResponse listFunctions( @Param(\"catalog_name\") String catalogName, @Param(\"schema_name\") String schemaName, @Param(\"max_results\") Optional<Integer> maxResults, @Param(\"page_token\") Optional<String> pageToken) { return HttpResponse.ofJson( FUNCTION_REPOSITORY.listFunctions(catalogName, schemaName, maxResults, pageToken)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaCli.createSchema",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/SchemaCli.java",
+    "artifact_content": "private static String createSchema(SchemasApi schemasApi, JSONObject json) throws JsonProcessingException, ApiException { CreateSchema createSchema = new CreateSchema() .name(json.getString(CliParams.NAME.getServerParam())) .catalogName(json.getString(CliParams.CATALOG_NAME.getServerParam())) .comment(json.optString(CliParams.COMMENT.getServerParam(), null)) .properties(CliUtils.extractProperties(objectMapper, json)); SchemaInfo schemaInfo = schemasApi.createSchema(createSchema); return objectWriter.writeValueAsString(schemaInfo); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaCli.deleteSchema",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/SchemaCli.java",
+    "artifact_content": "private static String deleteSchema(SchemasApi schemasApi, JSONObject json) throws ApiException { String schemaFullName = json.getString(CliParams.FULL_NAME.getServerParam()); schemasApi.deleteSchema( schemaFullName, json.has(CliParams.FORCE.getServerParam()) && Boolean.parseBoolean(json.getString(CliParams.FORCE.getServerParam()))); return CliUtils.EMPTY; } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaCli.getSchema",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/SchemaCli.java",
+    "artifact_content": "private static String getSchema(SchemasApi schemasApi, JSONObject json) throws JsonProcessingException, ApiException { String schemaFullName = json.getString(CliParams.FULL_NAME.getServerParam()); return objectWriter.writeValueAsString(schemasApi.getSchema(schemaFullName)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaCli.listSchemas",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/SchemaCli.java",
+    "artifact_content": "private static String listSchemas(SchemasApi schemasApi, JSONObject json) throws JsonProcessingException, ApiException { String catalogName = json.getString(CliParams.CATALOG_NAME.getServerParam()); int maxResults = 100; if (json.has(CliParams.MAX_RESULTS.getServerParam())) { maxResults = json.getInt(CliParams.MAX_RESULTS.getServerParam()); } return objectWriter.writeValueAsString( schemasApi.listSchemas(catalogName, maxResults, null).getSchemas()); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaCli.updateSchema",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/SchemaCli.java",
+    "artifact_content": "private static String updateSchema(SchemasApi schemasApi, JSONObject json) throws JsonProcessingException, ApiException { String schemaFullName = json.getString(CliParams.FULL_NAME.getServerParam()); json.remove(CliParams.FULL_NAME.getServerParam()); if (json.length() == 0) { List<CliParams> optionalParams = CliUtils.cliOptions.get(CliUtils.SCHEMA).get(CliUtils.UPDATE).getOptionalParams(); String errorMessage = \"No parameters to update, please provide one of:\"; for (CliParams param : optionalParams) { errorMessage += \"\n --\" + param.val(); } throw new CliException(errorMessage); } UpdateSchema updateSchema = new UpdateSchema() .newName(json.optString(CliParams.NEW_NAME.getServerParam(), null)) .comment(json.optString(CliParams.COMMENT.getServerParam(), null)) .properties(CliUtils.extractProperties(objectMapper, json)); SchemaInfo schemaInfo = schemasApi.updateSchema(schemaFullName, updateSchema); return objectWriter.writeValueAsString(schemaInfo); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaInfoDAO",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/dao/SchemaInfoDAO.java",
+    "artifact_content": "package io.unitycatalog.server.persist.dao; import io.unitycatalog.server.model.SchemaInfo; import jakarta.persistence.*; import java.time.Instant; import java.util.Date; import java.util.UUID; import lombok.*; import lombok.experimental.SuperBuilder; @Entity @Table(name = \"uc_schemas\") // Lombok @Getter @Setter @SuperBuilder @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode(callSuper = true) public class SchemaInfoDAO extends IdentifiableDAO { @Column(name = \"catalog_id\") private UUID catalogId; @Column(name = \"comment\") private String comment; @Column(name = \"created_at\") private Date createdAt; @Column(name = \"updated_at\") private Date updatedAt; public static SchemaInfoDAO from(SchemaInfo schemaInfo) { return SchemaInfoDAO.builder() .id(schemaInfo.getSchemaId() != null ? UUID.fromString(schemaInfo.getSchemaId()) : null) .name(schemaInfo.getName()) .comment(schemaInfo.getComment()) .createdAt( schemaInfo.getCreatedAt() != null ? Date.from(Instant.ofEpochMilli(schemaInfo.getCreatedAt())) : new Date()) .updatedAt( schemaInfo.getUpdatedAt() != null ? Date.from(Instant.ofEpochMilli(schemaInfo.getUpdatedAt())) : null) .build(); } public SchemaInfo toSchemaInfo() { return new SchemaInfo() .schemaId(getId().toString()) .name(getName()) .comment(getComment()) .createdAt(getCreatedAt().getTime()) .updatedAt(getUpdatedAt() != null ? getUpdatedAt().getTime() : null); } }",
+    "artifact_type": "Class",
+    "traceability_granularity": "Class"
+  },
+  {
+    "artifact_title": "SchemaRepository.createSchema",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/SchemaRepository.java",
+    "artifact_content": "public SchemaInfo createSchema(CreateSchema createSchema) { ValidationUtils.validateSqlObjectName(createSchema.getName()); try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { if (getSchemaDAO(session, createSchema.getCatalogName(), createSchema.getName()) != null) { throw new BaseException( ErrorCode.ALREADY_EXISTS, \"Schema already exists: \" + createSchema.getName()); } CatalogInfoDAO catalogDAO = CATALOG_REPOSITORY.getCatalogDAO(session, createSchema.getCatalogName()); SchemaInfo schemaInfo = new SchemaInfo() .schemaId(UUID.randomUUID().toString()) .name(createSchema.getName()) .catalogName(createSchema.getCatalogName()) .comment(createSchema.getComment()) .createdAt(System.currentTimeMillis()) .properties(createSchema.getProperties()); SchemaInfoDAO schemaInfoDAO = SchemaInfoDAO.from(schemaInfo); schemaInfoDAO.setCatalogId(catalogDAO.getId()); PropertyDAO.from(schemaInfo.getProperties(), schemaInfoDAO.getId(), Constants.SCHEMA) .forEach(session::persist); session.persist(schemaInfoDAO); tx.commit(); addNamespaceData(schemaInfo, createSchema.getCatalogName()); return schemaInfo; } catch (Exception e) { tx.rollback(); throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaRepository.deleteSchema",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/SchemaRepository.java",
+    "artifact_content": "public void deleteSchema( Session session, UUID catalogId, String catalogName, String schemaName, boolean force) { SchemaInfoDAO schemaInfo = getSchemaDAO(session, catalogId, schemaName); if (schemaInfo != null) { processChildTables(session, schemaInfo.getId(), catalogName, schemaName, force); processChildVolumes(session, schemaInfo.getId(), catalogName, schemaName, force); processChildFunctions(session, schemaInfo.getId(), catalogName, schemaName, force); session.remove(schemaInfo); PropertyRepository.findProperties(session, schemaInfo.getId(), Constants.SCHEMA) .forEach(session::remove); } else { throw new BaseException(ErrorCode.NOT_FOUND, \"Schema not found: \" + schemaName); } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaRepository.getSchema",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/SchemaRepository.java",
+    "artifact_content": "public SchemaInfo getSchema(String fullName) { try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); SchemaInfoDAO schemaInfoDAO; try { schemaInfoDAO = getSchemaDAO(session, fullName); if (schemaInfoDAO == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Schema not found: \" + fullName); } tx.commit(); SchemaInfo schemaInfo = convertFromDAO(session, schemaInfoDAO, fullName); return RepositoryUtils.attachProperties( schemaInfo, schemaInfo.getSchemaId(), Constants.SCHEMA, session); } catch (Exception e) { tx.rollback(); throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaRepository.listSchemas",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/SchemaRepository.java",
+    "artifact_content": "public ListSchemasResponse listSchemas( String catalogName, Optional<Integer> maxResults, Optional<String> pageToken) { try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); // TODO: Implement pagination and filtering if required // For now, returning all schemas without pagination try { UUID catalogId = getCatalogId(session, catalogName); ListSchemasResponse response = listSchemas(session, catalogId, catalogName, maxResults, pageToken); tx.commit(); return response; } catch (Exception e) { tx.rollback(); throw e; } } } public ListSchemasResponse listSchemas( Session session, UUID catalogId, String catalogName, Optional<Integer> maxResults, Optional<String> pageToken) { List<SchemaInfoDAO> schemaInfoDAOList = LISTING_HELPER.listEntity(session, maxResults, pageToken, catalogId); String nextPageToken = LISTING_HELPER.getNextPageToken(schemaInfoDAOList, maxResults); List<SchemaInfo> result = new ArrayList<>(); for (SchemaInfoDAO schemaInfoDAO : schemaInfoDAOList) { SchemaInfo schemaInfo = schemaInfoDAO.toSchemaInfo(); RepositoryUtils.attachProperties( schemaInfo, schemaInfo.getSchemaId(), Constants.SCHEMA, session); addNamespaceData(schemaInfo, catalogName); result.add(schemaInfo); } return new ListSchemasResponse().schemas(result).nextPageToken(nextPageToken); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaRepository.updateSchema",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/SchemaRepository.java",
+    "artifact_content": "public SchemaInfo updateSchema(String fullName, UpdateSchema updateSchema) { if (updateSchema.getNewName() != null) { ValidationUtils.validateSqlObjectName(updateSchema.getNewName()); } try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { SchemaInfoDAO schemaInfoDAO = getSchemaDAO(session, fullName); if (schemaInfoDAO == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Schema not found: \" + fullName); } if (updateSchema.getNewName() != null) { if (getSchemaDAO(session, fullName.split(\"\\.\")[0], updateSchema.getNewName()) != null) { throw new BaseException( ErrorCode.ALREADY_EXISTS, \"Schema already exists: \" + updateSchema.getNewName()); } } if (updateSchema.getComment() == null && updateSchema.getNewName() == null && (updateSchema.getProperties() == null || updateSchema.getProperties().isEmpty())) { tx.rollback(); return convertFromDAO(session, schemaInfoDAO, fullName); } // Update the schema with new values if (updateSchema.getComment() != null) { schemaInfoDAO.setComment(updateSchema.getComment()); } if (updateSchema.getNewName() != null) { schemaInfoDAO.setName(updateSchema.getNewName()); } if (updateSchema.getProperties() != null && !updateSchema.getProperties().isEmpty()) { PropertyRepository.findProperties(session, schemaInfoDAO.getId(), Constants.SCHEMA) .forEach(session::remove); session.flush(); PropertyDAO.from(updateSchema.getProperties(), schemaInfoDAO.getId(), Constants.SCHEMA) .forEach(session::persist); } schemaInfoDAO.setUpdatedAt(new Date()); session.merge(schemaInfoDAO); tx.commit(); return convertFromDAO(session, schemaInfoDAO, fullName); } catch (Exception e) { tx.rollback(); throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaService.createSchema",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/SchemaService.java",
+    "artifact_content": "@Post(\"\") public HttpResponse createSchema(CreateSchema createSchema) { return HttpResponse.ofJson(SCHEMA_REPOSITORY.createSchema(createSchema)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaService.deleteSchema",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/SchemaService.java",
+    "artifact_content": "@Delete(\"/{full_name}\") public HttpResponse deleteSchema( @Param(\"full_name\") String fullName, @Param(\"force\") Optional<Boolean> force) { SCHEMA_REPOSITORY.deleteSchema(fullName, force.orElse(false)); return HttpResponse.of(HttpStatus.OK); } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaService.getSchema",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/SchemaService.java",
+    "artifact_content": "@Get(\"/{full_name}\") public HttpResponse getSchema(@Param(\"full_name\") String fullName) { return HttpResponse.ofJson(SCHEMA_REPOSITORY.getSchema(fullName)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaService.listSchemas",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/SchemaService.java",
+    "artifact_content": "@Get(\"\") public HttpResponse listSchemas( @Param(\"catalog_name\") String catalogName, @Param(\"max_results\") Optional<Integer> maxResults, @Param(\"page_token\") Optional<String> pageToken) { return HttpResponse.ofJson(SCHEMA_REPOSITORY.listSchemas(catalogName, maxResults, pageToken)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "SchemaService.updateSchema",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/SchemaService.java",
+    "artifact_content": "@Patch(\"/{full_name}\") public HttpResponse updateSchema(@Param(\"full_name\") String fullName, UpdateSchema updateSchema) { return HttpResponse.ofJson(SCHEMA_REPOSITORY.updateSchema(fullName, updateSchema)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableCli.createTable",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/TableCli.java",
+    "artifact_content": "private static String createTable(TablesApi apiClient, JSONObject json) throws JsonProcessingException, ApiException { CliUtils.resolveFullNameToThreeLevelNamespace(json); try { json.putOnce(CliParams.TABLE_TYPE.getServerParam(), TableType.EXTERNAL.name()); } catch (JSONException e) { // ignore (table type already set) } try { json.putOnce(CliParams.DATA_SOURCE_FORMAT.getServerParam(), DataSourceFormat.DELTA.name()); } catch (JSONException e) { // ignore (data source format already set) } String format = json.getString(CliParams.DATA_SOURCE_FORMAT.getServerParam()); // Set fields in json object for seamless deserialization List<ColumnInfo> columnInfoList = CliUtils.parseColumns(json.getString(CliParams.COLUMNS.getServerParam())); CreateTable createTable = new CreateTable() .name(json.getString(CliParams.NAME.getServerParam())) .catalogName(json.getString(CliParams.CATALOG_NAME.getServerParam())) .schemaName(json.getString(CliParams.SCHEMA_NAME.getServerParam())) .columns(columnInfoList) .properties(CliUtils.extractProperties(objectMapper, json)) .tableType( TableType.valueOf( json.getString(CliParams.TABLE_TYPE.getServerParam()).toUpperCase())) .dataSourceFormat(DataSourceFormat.valueOf(format.toUpperCase())); if (createTable.getTableType() == TableType.EXTERNAL) { createTable.storageLocation(json.getString(CliParams.STORAGE_LOCATION.getServerParam())); handleTableStorageLocation(createTable.getStorageLocation(), columnInfoList); } TableInfo tableInfo = apiClient.createTable(createTable); return objectWriter.writeValueAsString(tableInfo); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableCli.deleteTable",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/TableCli.java",
+    "artifact_content": "private static String deleteTable(TablesApi tablesApi, JSONObject json) throws ApiException { tablesApi.deleteTable(json.getString(CliParams.FULL_NAME.getServerParam())); return EMPTY; }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableCli.getTable",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/TableCli.java",
+    "artifact_content": "private static String getTable(TablesApi tablesApi, JSONObject json) throws JsonProcessingException, ApiException { String fullName = json.getString(CliParams.FULL_NAME.val()); return objectWriter.writeValueAsString(tablesApi.getTable(fullName)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableCli.listTables",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/TableCli.java",
+    "artifact_content": "private static String listTables(TablesApi tablesApi, JSONObject json) throws JsonProcessingException, ApiException { int maxResults = 100; if (json.has(CliParams.MAX_RESULTS.getServerParam())) { maxResults = json.getInt(CliParams.MAX_RESULTS.getServerParam()); } return objectWriter.writeValueAsString( tablesApi .listTables( json.getString(CliParams.CATALOG_NAME.getServerParam()), json.getString(CliParams.SCHEMA_NAME.getServerParam()), maxResults, null) .getTables()); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableInfoDAO",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/dao/TableInfoDAO.java",
+    "artifact_content": "package io.unitycatalog.server.persist.dao; import io.unitycatalog.server.model.DataSourceFormat; import io.unitycatalog.server.model.TableInfo; import io.unitycatalog.server.model.TableType; import io.unitycatalog.server.persist.utils.FileUtils; import jakarta.persistence.*; import java.util.Date; import java.util.List; import java.util.UUID; import lombok.*; import lombok.experimental.SuperBuilder; // Hibernate annotations @Entity @Table( name = \"uc_tables\", indexes = { @Index(name = \"idx_name\", columnList = \"name\"), }) // Lombok annotations @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(callSuper = true) @SuperBuilder public class TableInfoDAO extends IdentifiableDAO { @Column(name = \"schema_id\") private UUID schemaId; @Column(name = \"type\") private String type; @Column(name = \"created_at\") private Date createdAt; @Column(name = \"updated_at\") private Date updatedAt; @Column(name = \"data_source_format\") private String dataSourceFormat; @Column(name = \"comment\", length = 65535) private String comment; @Column(name = \"url\", length = 2048) private String url; @Column(name = \"column_count\") private Integer columnCount; @OneToMany( mappedBy = \"table\", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) private List<ColumnInfoDAO> columns; @Column(name = \"uniform_iceberg_metadata_location\", length = 65535) private String uniformIcebergMetadataLocation; public static TableInfoDAO from(TableInfo tableInfo) { return TableInfoDAO.builder() .id(UUID.fromString(tableInfo.getTableId())) .name(tableInfo.getName()) .comment(tableInfo.getComment()) .createdAt( tableInfo.getCreatedAt() != null ? new Date(tableInfo.getCreatedAt()) : new Date()) .updatedAt(tableInfo.getUpdatedAt() != null ? new Date(tableInfo.getUpdatedAt()) : null) .columnCount(tableInfo.getColumns() != null ? tableInfo.getColumns().size() : 0) .url(tableInfo.getStorageLocation() != null ? tableInfo.getStorageLocation() : null) .type(tableInfo.getTableType().toString()) .dataSourceFormat(tableInfo.getDataSourceFormat().toString()) .url(tableInfo.getStorageLocation()) .columns(ColumnInfoDAO.fromList(tableInfo.getColumns())) .build(); } public TableInfo toTableInfo(boolean fetchColumns) { TableInfo tableInfo = new TableInfo() .tableId(getId().toString()) .name(getName()) .tableType(TableType.valueOf(type)) .dataSourceFormat(DataSourceFormat.valueOf(dataSourceFormat)) .storageLocation(FileUtils.convertRelativePathToURI(url)) .comment(comment) .createdAt(createdAt != null ? createdAt.getTime() : null) .updatedAt(updatedAt != null ? updatedAt.getTime() : null); if (fetchColumns) { tableInfo.columns(ColumnInfoDAO.toList(columns)); } return tableInfo; } }",
+    "artifact_type": "Class",
+    "traceability_granularity": "Class"
+  },
+  {
+    "artifact_title": "TableRepository.createTable",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/TableRepository.java",
+    "artifact_content": "public TableInfo createTable(CreateTable createTable) { ValidationUtils.validateSqlObjectName(createTable.getName()); List<ColumnInfo> columnInfos = createTable.getColumns().stream() .map(c -> c.typeText(c.getTypeText().toLowerCase(Locale.ROOT))) .collect(Collectors.toList()); TableInfo tableInfo = new TableInfo() .tableId(UUID.randomUUID().toString()) .name(createTable.getName()) .catalogName(createTable.getCatalogName()) .schemaName(createTable.getSchemaName()) .tableType(createTable.getTableType()) .dataSourceFormat(createTable.getDataSourceFormat()) .columns(columnInfos) .storageLocation(FileUtils.convertRelativePathToURI(createTable.getStorageLocation())) .comment(createTable.getComment()) .properties(createTable.getProperties()) .createdAt(System.currentTimeMillis()); String fullName = getTableFullName(tableInfo); LOGGER.debug(\"Creating table: \" + fullName); Transaction tx; try (Session session = SESSION_FACTORY.openSession()) { String catalogName = tableInfo.getCatalogName(); String schemaName = tableInfo.getSchemaName(); UUID schemaId = getSchemaId(session, catalogName, schemaName); tx = session.beginTransaction(); try { // Check if table already exists TableInfoDAO existingTable = findBySchemaIdAndName(session, schemaId, tableInfo.getName()); if (existingTable != null) { throw new BaseException(ErrorCode.ALREADY_EXISTS, \"Table already exists: \" + fullName); } if (TableType.MANAGED.equals(tableInfo.getTableType())) { throw new BaseException( ErrorCode.INVALID_ARGUMENT, \"MANAGED table creation is not supported yet.\"); } // assuming external table if (tableInfo.getStorageLocation() == null) { throw new BaseException( ErrorCode.INVALID_ARGUMENT, \"Storage location is required for external table\"); } TableInfoDAO tableInfoDAO = TableInfoDAO.from(tableInfo); tableInfoDAO.setSchemaId(schemaId); // create columns tableInfoDAO .getColumns() .forEach( c -> { c.setId(UUID.randomUUID()); c.setTable(tableInfoDAO); }); // create properties PropertyDAO.from(tableInfo.getProperties(), tableInfoDAO.getId(), Constants.TABLE) .forEach(session::persist); session.persist(tableInfoDAO); tx.commit(); } catch (RuntimeException e) { if (tx != null && tx.getStatus().canRollback()) { tx.rollback(); } throw e; } } catch (RuntimeException e) { if (e instanceof BaseException) { throw e; } throw new BaseException( ErrorCode.INTERNAL, \"Error creating table: \" + fullName + \". \" + e.getMessage(), e); } return tableInfo; }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableRepository.deleteTable",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/TableRepository.java",
+    "artifact_content": "public void deleteTable(Session session, UUID schemaId, String tableName) { TableInfoDAO tableInfoDAO = findBySchemaIdAndName(session, schemaId, tableName); if (tableInfoDAO == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Table not found: \" + tableName); } if (TableType.MANAGED.getValue().equals(tableInfoDAO.getType())) { try { FileUtils.deleteDirectory(tableInfoDAO.getUrl()); } catch (Throwable e) { LOGGER.error(\"Error deleting table directory: {}\", tableInfoDAO.getUrl(), e); } } PropertyRepository.findProperties(session, tableInfoDAO.getId(), Constants.TABLE) .forEach(session::remove); session.remove(tableInfoDAO); } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableRepository.getTable",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/TableRepository.java",
+    "artifact_content": "public TableInfo getTable(String fullName) { LOGGER.debug(\"Getting table: \" + fullName); TableInfo tableInfo = null; try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); try { String[] parts = fullName.split(\"\\.\"); if (parts.length != 3) { throw new BaseException(ErrorCode.INVALID_ARGUMENT, \"Invalid table name: \" + fullName); } String catalogName = parts[0]; String schemaName = parts[1]; String tableName = parts[2]; TableInfoDAO tableInfoDAO = findTable(session, catalogName, schemaName, tableName); if (tableInfoDAO == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Table not found: \" + fullName); } tableInfo = tableInfoDAO.toTableInfo(true); tableInfo.setCatalogName(catalogName); tableInfo.setSchemaName(schemaName); RepositoryUtils.attachProperties( tableInfo, tableInfo.getTableId(), Constants.TABLE, session); tx.commit(); return tableInfo; } catch (Exception e) { if (tx != null && tx.getStatus().canRollback()) { tx.rollback(); } throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableRepository.listTables",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/TableRepository.java",
+    "artifact_content": "public ListTablesResponse listTables( String catalogName, String schemaName, Optional<Integer> maxResults, Optional<String> pageToken, Boolean omitProperties, Boolean omitColumns) { try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); try { UUID schemaId = getSchemaId(session, catalogName, schemaName); ListTablesResponse response = listTables( session, schemaId, catalogName, schemaName, maxResults, pageToken, omitProperties, omitColumns); tx.commit(); return response; } catch (Exception e) { if (tx != null && tx.getStatus().canRollback()) { tx.rollback(); } throw e; } } } public ListTablesResponse listTables( Session session, UUID schemaId, String catalogName, String schemaName, Optional<Integer> maxResults, Optional<String> pageToken, Boolean omitProperties, Boolean omitColumns) { List<TableInfoDAO> tableInfoDAOList = LISTING_HELPER.listEntity(session, maxResults, pageToken, schemaId); String nextPageToken = LISTING_HELPER.getNextPageToken(tableInfoDAOList, maxResults); List<TableInfo> result = new ArrayList<>(); for (TableInfoDAO tableInfoDAO : tableInfoDAOList) { TableInfo tableInfo = tableInfoDAO.toTableInfo(!omitColumns); if (!omitProperties) { RepositoryUtils.attachProperties( tableInfo, tableInfo.getTableId(), Constants.TABLE, session); } tableInfo.setCatalogName(catalogName); tableInfo.setSchemaName(schemaName); result.add(tableInfo); } return new ListTablesResponse().tables(result).nextPageToken(nextPageToken); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableService.createTable",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/TableService.java",
+    "artifact_content": "@Post(\"\") public HttpResponse createTable(CreateTable createTable) { assert createTable != null; TableInfo createTableResponse = TABLE_REPOSITORY.createTable(createTable); return HttpResponse.ofJson(createTableResponse); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableService.deleteTable",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/TableService.java",
+    "artifact_content": "@Delete(\"/{full_name}\") public HttpResponse deleteTable(@Param(\"full_name\") String fullName) { TABLE_REPOSITORY.deleteTable(fullName); return HttpResponse.of(HttpStatus.OK); } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableService.getTable",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/TableService.java",
+    "artifact_content": "Get(\"/{full_name}\") public HttpResponse getTable(@Param(\"full_name\") String fullName) { assert fullName != null; TableInfo tableInfo = TABLE_REPOSITORY.getTable(fullName); return HttpResponse.ofJson(tableInfo); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TableService.listTables",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/TableService.java",
+    "artifact_content": "@Get(\"\") public HttpResponse listTables( @Param(\"catalog_name\") String catalogName, @Param(\"schema_name\") String schemaName, @Param(\"max_results\") Optional<Integer> maxResults, @Param(\"page_token\") Optional<String> pageToken, @Param(\"omit_properties\") Optional<Boolean> omitProperties, @Param(\"omit_columns\") Optional<Boolean> omitColumns) { return HttpResponse.ofJson( TABLE_REPOSITORY.listTables( catalogName, schemaName, maxResults, pageToken, omitProperties.orElse(false), omitColumns.orElse(false))); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TemporaryTableCredentialsService.generateTemporaryTableCredentials",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/TemporaryTableCredentialsService.java",
+    "artifact_content": "@Post(\"\") public HttpResponse generateTemporaryTableCredential( GenerateTemporaryTableCredential generateTemporaryTableCredential) { String tableId = generateTemporaryTableCredential.getTableId(); // Check if table exists String tableStorageLocation = \"\"; TableInfo tableInfo = TABLE_REPOSITORY.getTableById(tableId); tableStorageLocation = tableInfo.getStorageLocation(); // Generate temporary credentials if (tableStorageLocation == null || tableStorageLocation.isEmpty()) { throw new BaseException(ErrorCode.FAILED_PRECONDITION, \"Table storage location not found.\"); } if (tableStorageLocation.startsWith(\"s3://\")) { return HttpResponse.ofJson( new GenerateTemporaryTableCredentialResponse() .awsTempCredentials( TemporaryCredentialUtils.findS3BucketConfig(tableStorageLocation))); } else { // return empty credentials for local file system return HttpResponse.ofJson(new GenerateTemporaryTableCredentialResponse()); } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "TemporaryVolumeCredentialsService.generateTemporaryVolumeCredentials",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/TemporaryVolumeCredentialsService.java",
+    "artifact_content": "@Post(\"\") public HttpResponse generateTemporaryVolumeCredentials( GenerateTemporaryVolumeCredential generateTemporaryVolumeCredential) { String volumeId = generateTemporaryVolumeCredential.getVolumeId(); if (volumeId.isEmpty()) { throw new BaseException(ErrorCode.INVALID_ARGUMENT, \"Volume ID is required.\"); } VolumeInfo volumeInfo = VOLUME_REPOSITORY.getVolumeById(volumeId); String volumePath = volumeInfo.getStorageLocation(); if (volumePath == null || volumePath.isEmpty()) { throw new BaseException(ErrorCode.FAILED_PRECONDITION, \"Volume storage location not found.\"); } if (volumePath.startsWith(\"s3://\")) { return HttpResponse.ofJson( new GenerateTemporaryVolumeCredentialResponse() .awsTempCredentials(TemporaryCredentialUtils.findS3BucketConfig(volumePath))); } else { // return empty credentials for local file system return HttpResponse.ofJson(new GenerateTemporaryVolumeCredential()); } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeCli.createVolume",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/VolumeCli.java",
+    "artifact_content": "private static String createVolume(VolumesApi volumesApi, JSONObject json) throws JsonProcessingException, ApiException { CliUtils.resolveFullNameToThreeLevelNamespace(json); if (!json.has(CliParams.VOLUME_TYPE.getServerParam())) { json.put(CliParams.VOLUME_TYPE.getServerParam(), VolumeType.EXTERNAL.toString()); } CreateVolumeRequestContent createVolumeRequest; createVolumeRequest = objectMapper.readValue(json.toString(), CreateVolumeRequestContent.class); return objectWriter.writeValueAsString(volumesApi.createVolume(createVolumeRequest)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeCli.deleteVolume",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/VolumeCli.java",
+    "artifact_content": "private static String deleteVolume(VolumesApi volumesApi, JSONObject json) throws ApiException { String volumeFullName = json.getString(CliParams.FULL_NAME.getServerParam()); volumesApi.deleteVolume(volumeFullName); return CliUtils.EMPTY; } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeCli.getVolume",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/VolumeCli.java",
+    "artifact_content": "private static String getVolume(VolumesApi volumesApi, JSONObject json) throws JsonProcessingException, ApiException { String volumeFullName = json.getString(CliParams.FULL_NAME.getServerParam()); return objectWriter.writeValueAsString(volumesApi.getVolume(volumeFullName)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeCli.listVolumes",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/VolumeCli.java",
+    "artifact_content": "private static String listVolumes(VolumesApi volumesApi, JSONObject json) throws JsonProcessingException, ApiException { String catalogName = json.getString(CliParams.CATALOG_NAME.getServerParam()); String schemaName = json.getString(CliParams.SCHEMA_NAME.getServerParam()); int maxResults = 100; if (json.has(CliParams.MAX_RESULTS.getServerParam())) { maxResults = json.getInt(CliParams.MAX_RESULTS.getServerParam()); } return objectWriter.writeValueAsString( volumesApi.listVolumes(catalogName, schemaName, maxResults, null).getVolumes()); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeCli.updateVolume",
+    "artifact_location": "examples/cli/src/main/java/io/unitycatalog/cli/VolumeCli.java",
+    "artifact_content": "private static String updateVolume(VolumesApi apiClient, JSONObject json) throws JsonProcessingException, ApiException { String volumeFullName = json.getString(CliParams.FULL_NAME.getServerParam()); json.remove(CliParams.FULL_NAME.getServerParam()); if (json.length() == 0) { List<CliParams> optionalParams = CliUtils.cliOptions.get(CliUtils.VOLUME).get(CliUtils.UPDATE).getOptionalParams(); String errorMessage = \"No parameters to update, please provide one of:\"; for (CliParams param : optionalParams) { errorMessage += \"\n --\" + param.val(); } throw new CliException(errorMessage); } UpdateVolumeRequestContent updateVolumeRequest = objectMapper.readValue(json.toString(), UpdateVolumeRequestContent.class); return objectWriter.writeValueAsString( apiClient.updateVolume(volumeFullName, updateVolumeRequest)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeInfoDAO",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/dao/VolumeInfoDAO.java",
+    "artifact_content": "package io.unitycatalog.server.persist.dao; import io.unitycatalog.server.model.VolumeInfo; import io.unitycatalog.server.model.VolumeType; import io.unitycatalog.server.persist.utils.FileUtils; import jakarta.persistence.Column; import jakarta.persistence.Entity; import jakarta.persistence.Table; import java.util.Date; import java.util.UUID; import lombok.*; import lombok.experimental.SuperBuilder; @Entity @Table(name = \"uc_volumes\") // lombok annotations @Getter @Setter @NoArgsConstructor @AllArgsConstructor @SuperBuilder @EqualsAndHashCode(callSuper = true) public class VolumeInfoDAO extends IdentifiableDAO { @Column(name = \"schema_id\") private UUID schemaId; @Column(name = \"comment\") private String comment; @Column(name = \"storage_location\") private String storageLocation; @Column(name = \"created_at\") private Date createdAt; @Column(name = \"updated_at\") private Date updatedAt; @Column(name = \"volume_type\") private String volumeType; public VolumeInfo toVolumeInfo() { return new VolumeInfo() .volumeId(getId().toString()) .name(getName()) .comment(comment) .storageLocation(FileUtils.convertRelativePathToURI(storageLocation)) .createdAt(createdAt.getTime()) .updatedAt(updatedAt.getTime()) .volumeType(VolumeType.valueOf(volumeType)); } public static VolumeInfoDAO from(VolumeInfo volumeInfo) { if (volumeInfo == null) { return null; } return VolumeInfoDAO.builder() .id(UUID.fromString(volumeInfo.getVolumeId())) .name(volumeInfo.getName()) .comment(volumeInfo.getComment()) .storageLocation(volumeInfo.getStorageLocation()) .createdAt( volumeInfo.getCreatedAt() != null ? new Date(volumeInfo.getCreatedAt()) : new Date()) .updatedAt( volumeInfo.getUpdatedAt() != null ? new Date(volumeInfo.getUpdatedAt()) : new Date()) .volumeType(volumeInfo.getVolumeType().getValue()) .build(); } }",
+    "artifact_type": "Class",
+    "traceability_granularity": "Class"
+  },
+  {
+    "artifact_title": "VolumeRepository.createVolume",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/VolumeRepository.java",
+    "artifact_content": "public VolumeInfo createVolume(CreateVolumeRequestContent createVolumeRequest) { ValidationUtils.validateSqlObjectName(createVolumeRequest.getName()); String volumeFullName = createVolumeRequest.getCatalogName() + \".\" + createVolumeRequest.getSchemaName() + \".\" + createVolumeRequest.getName(); VolumeInfo volumeInfo = new VolumeInfo(); volumeInfo.setVolumeId(UUID.randomUUID().toString()); volumeInfo.setCatalogName(createVolumeRequest.getCatalogName()); volumeInfo.setSchemaName(createVolumeRequest.getSchemaName()); volumeInfo.setName(createVolumeRequest.getName()); volumeInfo.setComment(createVolumeRequest.getComment()); volumeInfo.setFullName(volumeFullName); volumeInfo.setCreatedAt(System.currentTimeMillis()); volumeInfo.setVolumeType(createVolumeRequest.getVolumeType()); if (VolumeType.MANAGED.equals(createVolumeRequest.getVolumeType())) { throw new BaseException( ErrorCode.INVALID_ARGUMENT, \"Managed volume creation is not supported\"); } if (createVolumeRequest.getStorageLocation() == null) { throw new BaseException( ErrorCode.INVALID_ARGUMENT, \"Storage location is required for external volume\"); } volumeInfo.setStorageLocation(createVolumeRequest.getStorageLocation()); VolumeInfoDAO volumeInfoDAO = VolumeInfoDAO.from(volumeInfo); try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { SchemaInfoDAO schemaInfoDAO = SCHEMA_REPOSITORY.getSchemaDAO( session, createVolumeRequest.getCatalogName(), createVolumeRequest.getSchemaName()); if (schemaInfoDAO == null) { throw new BaseException( ErrorCode.NOT_FOUND, \"Schema not found: \" + createVolumeRequest.getCatalogName() + \".\" + createVolumeRequest.getSchemaName()); } if (getVolumeDAO( session, createVolumeRequest.getCatalogName(), createVolumeRequest.getSchemaName(), createVolumeRequest.getName()) != null) { throw new BaseException( ErrorCode.ALREADY_EXISTS, \"Volume already exists: \" + volumeFullName); } volumeInfoDAO.setSchemaId(schemaInfoDAO.getId()); session.persist(volumeInfoDAO); tx.commit(); LOGGER.info(\"Added volume: {}\", volumeInfo.getName()); return convertFromDAO( volumeInfoDAO, createVolumeRequest.getCatalogName(), createVolumeRequest.getSchemaName()); } catch (Exception e) { tx.rollback(); throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeRepository.deleteVolume",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/VolumeRepository.java",
+    "artifact_content": "public void deleteVolume(String name) { try (Session session = SESSION_FACTORY.openSession()) { String[] namespace = name.split(\"\\.\"); if (namespace.length != 3) { throw new BaseException(ErrorCode.INVALID_ARGUMENT, \"Invalid volume name: \" + name); } String catalog = namespace[0], schema = namespace[1], volume = namespace[2]; Transaction tx = session.beginTransaction(); try { SchemaInfoDAO schemaInfo = SCHEMA_REPOSITORY.getSchemaDAO(session, catalog, schema); if (schemaInfo == null) { throw new BaseException( ErrorCode.NOT_FOUND, \"Schema not found: \" + catalog + \".\" + schema); } deleteVolume(session, schemaInfo.getId(), volume); tx.commit(); } catch (Exception e) { tx.rollback(); throw e; } } } public void deleteVolume(Session session, UUID schemaId, String volumeName) { VolumeInfoDAO volumeInfoDAO = getVolumeDAO(session, schemaId, volumeName); if (volumeInfoDAO == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Volume not found: \" + volumeName); } if (VolumeType.MANAGED.getValue().equals(volumeInfoDAO.getVolumeType())) { try { FileUtils.deleteDirectory(volumeInfoDAO.getStorageLocation()); } catch (Exception e) { LOGGER.error(\"Error deleting volume directory\", e); } } session.remove(volumeInfoDAO); LOGGER.info(\"Deleted volume: {}\", volumeInfoDAO.getName()); } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeRepository.getVolume",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/VolumeRepository.java",
+    "artifact_content": "public VolumeInfo getVolume(String fullName) { try (Session session = SESSION_FACTORY.openSession()) { String[] namespace = fullName.split(\"\\.\"); if (namespace.length != 3) { throw new BaseException(ErrorCode.INVALID_ARGUMENT, \"Invalid volume name: \" + fullName); } String catalogName = namespace[0]; String schemaName = namespace[1]; String volumeName = namespace[2]; return convertFromDAO( getVolumeDAO(session, catalogName, schemaName, volumeName), catalogName, schemaName); } catch (Exception e) { LOGGER.error(\"Error getting volume\", e); return null; } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeRepository.listVolumes",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/VolumeRepository.java",
+    "artifact_content": "public ListVolumesResponseContent listVolumes( String catalogName, String schemaName, Optional<Integer> maxResults, Optional<String> pageToken, Optional<Boolean> includeBrowse) { try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); try { SchemaInfoDAO schemaInfo = SCHEMA_REPOSITORY.getSchemaDAO(session, catalogName, schemaName); if (schemaInfo == null) { throw new BaseException( ErrorCode.NOT_FOUND, \"Schema not found: \" + catalogName + \".\" + schemaName); } ListVolumesResponseContent responseContent = listVolumes( session, schemaInfo.getId(), catalogName, schemaName, maxResults, pageToken); tx.commit(); return responseContent; } catch (Exception e) { tx.rollback(); throw e; } } } public ListVolumesResponseContent listVolumes( Session session, UUID schemaId, String catalogName, String schemaName, Optional<Integer> maxResults, Optional<String> pageToken) { ListVolumesResponseContent responseContent = new ListVolumesResponseContent(); String queryString = \"from VolumeInfoDAO v where v.schemaId = :schemaId\"; Query<VolumeInfoDAO> query = session.createQuery(queryString, VolumeInfoDAO.class); query.setParameter(\"schemaId\", schemaId); maxResults.ifPresent(query::setMaxResults); if (pageToken.isPresent()) { // Perform pagination logic here if needed // Example: query.setFirstResult(startIndex); } responseContent.setVolumes( query.list().stream() .map(x -> convertFromDAO(x, catalogName, schemaName)) .collect(Collectors.toList())); return responseContent; }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeRepository.updateVolume",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/persist/VolumeRepository.java",
+    "artifact_content": "public VolumeInfo updateVolume(String name, UpdateVolumeRequestContent updateVolumeRequest) { if (updateVolumeRequest.getNewName() != null) { ValidationUtils.validateSqlObjectName(updateVolumeRequest.getNewName()); } String[] namespace = name.split(\"\\.\"); String catalog = namespace[0], schema = namespace[1], volume = namespace[2]; try (Session session = SESSION_FACTORY.openSession()) { Transaction tx = session.beginTransaction(); try { VolumeInfoDAO volumeInfo = getVolumeDAO(session, catalog, schema, volume); if (volumeInfo == null) { throw new BaseException(ErrorCode.NOT_FOUND, \"Volume not found: \" + name); } if (updateVolumeRequest.getNewName() != null) { VolumeInfoDAO existingVolume = getVolumeDAO(session, catalog, schema, updateVolumeRequest.getNewName()); if (existingVolume != null) { throw new BaseException( ErrorCode.ALREADY_EXISTS, \"Volume already exists: \" + updateVolumeRequest.getNewName()); } } if (updateVolumeRequest.getNewName() == null && updateVolumeRequest.getComment() == null) { tx.rollback(); return convertFromDAO(volumeInfo, catalog, schema); } if (updateVolumeRequest.getNewName() != null) { volumeInfo.setName(updateVolumeRequest.getNewName()); } if (updateVolumeRequest.getComment() != null) { volumeInfo.setComment(updateVolumeRequest.getComment()); } volumeInfo.setUpdatedAt(new Date()); session.merge(volumeInfo); tx.commit(); LOGGER.info(\"Updated volume: {}\", volumeInfo.getName()); return convertFromDAO(volumeInfo, catalog, schema); } catch (Exception e) { tx.rollback(); throw e; } } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeService.createVolume",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/VolumeService.java",
+    "artifact_content": "@Post(\"\") public HttpResponse createVolume(CreateVolumeRequestContent createVolumeRequest) { // Throw error if catalog/schema does not exist return HttpResponse.ofJson(VOLUME_REPOSITORY.createVolume(createVolumeRequest)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeService.deleteVolume",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/VolumeService.java",
+    "artifact_content": "@Delete(\"/{full_name}\") public HttpResponse deleteVolume(@Param(\"full_name\") String fullName) { VOLUME_REPOSITORY.deleteVolume(fullName); return HttpResponse.of(HttpStatus.OK); } }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeService.getVolume",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/VolumeService.java",
+    "artifact_content": "@Get(\"/{full_name}\") public HttpResponse getVolume( @Param(\"full_name\") String fullName, @Param(\"include_browse\") Optional<Boolean> includeBrowse) { return HttpResponse.ofJson(VOLUME_REPOSITORY.getVolume(fullName)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeService.listVolumes",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/VolumeService.java",
+    "artifact_content": "@Get(\"\") public HttpResponse listVolumes( @Param(\"catalog_name\") String catalogName, @Param(\"schema_name\") String schemaName, @Param(\"max_results\") Optional<Integer> maxResults, @Param(\"page_token\") Optional<String> pageToken, @Param(\"include_browse\") Optional<Boolean> includeBrowse) { return HttpResponse.ofJson( VOLUME_REPOSITORY.listVolumes( catalogName, schemaName, maxResults, pageToken, includeBrowse)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  },
+  {
+    "artifact_title": "VolumeService.updateVolume",
+    "artifact_location": "server/src/main/java/io/unitycatalog/server/service/VolumeService.java",
+    "artifact_content": "@Patch(\"/{full_name}\") public HttpResponse updateVolume( @Param(\"full_name\") String fullName, UpdateVolumeRequestContent updateVolumeRequest) { return HttpResponse.ofJson(VOLUME_REPOSITORY.updateVolume(fullName, updateVolumeRequest)); }",
+    "artifact_type": "Method",
+    "traceability_granularity": "Method"
+  }
+]

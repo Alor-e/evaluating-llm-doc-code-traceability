@@ -1,0 +1,25 @@
+[
+  {
+    "sent_document_text": "<a name=\"listTables\"></a>\n# **listTables**\n> ListTablesResponse listTables(catalog\\_name, schema\\_name, max\\_results, page\\_token)\n\nList tables\n\n    Gets the list of all available tables under the parent catalog and schema. There is no guarantee of a specific ordering of the elements in the array. \n\n### Parameters\n\n|Name | Type | Description  | Notes |\n|------------- | ------------- | ------------- | -------------|\n| **catalog\\_name** | **String**| Name of parent catalog for tables of interest. | [default to null] |\n| **schema\\_name** | **String**| Parent schema of tables. | [default to null] |\n| **max\\_results** | **Integer**| Maximum number of tables to return. - when set to a value greater than 0, the page length is the minimum of this value and a server configured value; - when set to 0, the page length is set to a server configured value; - when set to a value less than 0, an invalid parameter error is returned;  | [optional] [default to null] |\n| **page\\_token** | **String**| Opaque token to send for the next page of results (pagination). | [optional] [default to null] |\n\n### Return type\n\n[**ListTablesResponse**](../Models/ListTablesResponse.md)\n\n### Authorization\n\nNo authorization required\n\n### HTTP request headers\n\n- **Content-Type**: Not defined\n- **Accept**: application/json",
+    "document_location": "api/Apis/TablesApi.md",
+    "artifact_id": 9,
+    "artifact_title": "CatalogRepository.listCatalogs",
+    "predicted_relationship": "implicit",
+    "relationship_type": "uses",
+    "relationship_explanation": "Although not directly mentioned, 'CatalogRepository.listCatalogs' is part of the back-end processes typically used when accessing catalog information. 'listTables' function uses catalog and schema parameters, which entails interaction with repository functions related to catalog listing.",
+    "predicted_trace_chain": "TablesApi.md -> TableCli.listTables -> CatalogRepository.listCatalogs",
+    "predicted_trace_chain_explanation": "The function 'listTables' in 'TableCli' requires catalog context as described in the API, hinting at possible interactions with 'CatalogRepository.listCatalogs' as part of its operations. This chain highlights a backend interaction necessary for fulfilling the API's purpose.",
+    "ground_truth_relationship": null,
+    "ground_truth_trace_chain": null,
+    "traceability_granularity": "Method",
+    "confusion_metrics": "False Positive",
+    "prediction_details": {
+      "matches_ground_truth": false,
+      "relationship_match": false
+    },
+    "error_group": [
+      ""
+    ],
+    "artifact_code": "public ListCatalogsResponse listCatalogs( Optional<Integer> maxResults, Optional<String> pageToken) { try (Session session = SESSION_FACTORY.openSession()) { session.setDefaultReadOnly(true); Transaction tx = session.beginTransaction(); try { ListCatalogsResponse response = listCatalogs(session, maxResults, pageToken); tx.commit(); return response; } catch (Exception e) { tx.rollback(); throw e; } } } public ListCatalogsResponse listCatalogs( Session session, Optional<Integer> maxResults, Optional<String> pageToken) { List<CatalogInfoDAO> catalogInfoDAOList = LISTING_HELPER.listEntity(session, maxResults, pageToken, null); String nextPageToken = LISTING_HELPER.getNextPageToken(catalogInfoDAOList, maxResults); List<CatalogInfo> result = new ArrayList<>(); for (CatalogInfoDAO catalogInfoDAO : catalogInfoDAOList) { CatalogInfo catalogInfo = catalogInfoDAO.toCatalogInfo(); RepositoryUtils.attachProperties( catalogInfo, catalogInfo.getId(), Constants.CATALOG, session); result.add(catalogInfo); } return new ListCatalogsResponse().catalogs(result).nextPageToken(nextPageToken); }"
+  }
+]

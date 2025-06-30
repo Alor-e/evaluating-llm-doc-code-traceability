@@ -1,0 +1,22 @@
+{
+  "average_f1": 0.11982991882489369,
+  "average_precision": 0.06373355263157894,
+  "average_recall": 1.0,
+  "average_threshold": 0.0,
+  "average_total_predicted_links": 2432.0,
+  "average_predicted_links_by_granularity": {
+    "Method": {
+      "precision": 0.0625,
+      "recall": 1.0,
+      "f1": 0.11764705882352941,
+      "predicted_links": 2272.0
+    },
+    "Class": {
+      "precision": 0.08125,
+      "recall": 1.0,
+      "f1": 0.15028901734104047,
+      "predicted_links": 160.0
+    }
+  },
+  "n_runs": 5
+}

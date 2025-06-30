@@ -1,0 +1,28 @@
+{
+  "average_f1": 0.4412698412698412,
+  "average_precision": 0.33413461538461536,
+  "average_recall": 0.6495327102803738,
+  "average_threshold": 8.700000000000001,
+  "average_total_predicted_links": 1248.0,
+  "average_predicted_links_by_granularity": {
+    "Class": {
+      "precision": 0.31537708129285014,
+      "recall": 0.696969696969697,
+      "f1": 0.4342548887390424,
+      "predicted_links": 1021.0
+    },
+    "Statement-level": {
+      "precision": 0.07692307692307693,
+      "recall": 0.06097560975609756,
+      "f1": 0.06802721088435375,
+      "predicted_links": 65.0
+    },
+    "Method": {
+      "precision": 0.5555555555555556,
+      "recall": 0.9183673469387756,
+      "f1": 0.6923076923076923,
+      "predicted_links": 162.0
+    }
+  },
+  "n_runs": 5
+}

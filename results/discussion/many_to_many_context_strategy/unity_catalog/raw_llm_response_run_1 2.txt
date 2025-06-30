@@ -1,0 +1,162 @@
+{
+  "traces": [
+    {
+      "doc_id": "doc_1",
+      "traced_artifacts": [
+        {
+          "artifact_id": 59,
+          "title": "TemporaryVolumeCredentialsService.generateTemporaryVolumeCredentials",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the generateTemporaryVolumeCredentials method, which is directly implemented in the TemporaryVolumeCredentialsService class. The method takes a GenerateTemporaryVolumeCredential object as input and returns an HttpResponse containing temporary credentials for accessing a volume.",
+          "trace_chain": "doc_1 -> TemporaryVolumeCredentialsService.generateTemporaryVolumeCredentials",
+          "trace_chain_explanation": "The document directly describes the implementation of this method."
+        },
+        {
+          "artifact_id": 68,
+          "title": "VolumeRepository.getVolume",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The generateTemporaryVolumeCredentials method uses the VOLUME_REPOSITORY to get volume information by calling getVolumeById(volumeId). This implies the use of the VolumeRepository.getVolume method.",
+          "trace_chain": "doc_1 -> TemporaryVolumeCredentialsService.generateTemporaryVolumeCredentials -> VolumeRepository.getVolume",
+          "trace_chain_explanation": "The generateTemporaryVolumeCredentials method needs to retrieve volume information, which is done through the VolumeRepository.getVolume method."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_2",
+      "traced_artifacts": [
+        {
+          "artifact_id": 29,
+          "title": "SchemaCli.createSchema",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createSchema method in the SchemaCli class. It shows how the method constructs a CreateSchema object and calls the schemasApi.createSchema method to create a new schema.",
+          "trace_chain": "doc_2 -> SchemaCli.createSchema",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the SchemaCli class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_3",
+      "traced_artifacts": [
+        {
+          "artifact_id": 45,
+          "title": "TableCli.createTable",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createTable method in the TableCli class. It shows how the method constructs a CreateTable object and calls the apiClient.createTable method to create a new table.",
+          "trace_chain": "doc_3 -> TableCli.createTable",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the TableCli class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_4",
+      "traced_artifacts": [
+        {
+          "artifact_id": 60,
+          "title": "VolumeCli.createVolume",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createVolume method in the VolumeCli class. It shows how the method constructs a CreateVolumeRequestContent object and calls the volumesApi.createVolume method to create a new volume.",
+          "trace_chain": "doc_4 -> VolumeCli.createVolume",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the VolumeCli class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_5",
+      "traced_artifacts": [
+        {
+          "artifact_id": 16,
+          "title": "FunctionCli.createFunction",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createFunction method in the FunctionCli class. It shows how the method constructs a CreateFunction object and calls the functionsApi.createFunction method to create a new function.",
+          "trace_chain": "doc_5 -> FunctionCli.createFunction",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the FunctionCli class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_6",
+      "traced_artifacts": [
+        {
+          "artifact_id": 0,
+          "title": "CatalogCli.createCatalog",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createCatalog method in the CatalogCli class. It shows how the method constructs a CreateCatalog object and calls the catalogsApi.createCatalog method to create a new catalog.",
+          "trace_chain": "doc_6 -> CatalogCli.createCatalog",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the CatalogCli class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_7",
+      "traced_artifacts": [
+        {
+          "artifact_id": 1,
+          "title": "CatalogCli.deleteCatalog",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the deleteCatalog method in the CatalogCli class. It shows how the method calls the catalogsApi.deleteCatalog method to delete a catalog.",
+          "trace_chain": "doc_7 -> CatalogCli.deleteCatalog",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the CatalogCli class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_8",
+      "traced_artifacts": [
+        {
+          "artifact_id": 46,
+          "title": "TableCli.deleteTable",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the deleteTable method in the TableCli class. It shows how the method calls the tablesApi.deleteTable method to delete a table.",
+          "trace_chain": "doc_8 -> TableCli.deleteTable",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the TableCli class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_9",
+      "traced_artifacts": [
+        {
+          "artifact_id": 58,
+          "title": "TemporaryTableCredentialsService.generateTemporaryTableCredentials",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the generateTemporaryTableCredential method in the TemporaryTableCredentialsService class. It shows how the method generates temporary credentials for accessing a table.",
+          "trace_chain": "doc_9 -> TemporaryTableCredentialsService.generateTemporaryTableCredentials",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the TemporaryTableCredentialsService class."
+        },
+        {
+          "artifact_id": 52,
+          "title": "TableRepository.getTable",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The generateTemporaryTableCredential method uses the TABLE_REPOSITORY to get table information by calling getTableById(tableId). This implies the use of the TableRepository.getTable method.",
+          "trace_chain": "doc_9 -> TemporaryTableCredentialsService.generateTemporaryTableCredentials -> TableRepository.getTable",
+          "trace_chain_explanation": "The generateTemporaryTableCredential method needs to retrieve table information, which is done through the TableRepository.getTable method."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_10",
+      "traced_artifacts": [
+        {
+          "artifact_id": 31,
+          "title": "SchemaCli.getSchema",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the getSchema method in the SchemaCli class. It shows how the method calls the schemasApi.getSchema method to retrieve schema information.",
+          "trace_chain": "doc_10 -> SchemaCli.getSchema",
+          "trace_chain_explanation": "The document directly describes the implementation of this method in the SchemaCli class."
+        }
+      ]
+    }
+  ]
+}

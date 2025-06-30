@@ -1,0 +1,102 @@
+{
+  "doc_length_comparison": {
+    "test": "Mann-Whitney U",
+    "statistic": 64530.0,
+    "p_value": 0.002817310857339006,
+    "effect_size": 0.4389348025711662,
+    "significant": true
+  },
+  "num_code_examples_comparison": {
+    "test": "Mann-Whitney U",
+    "statistic": 73507.5,
+    "p_value": 1.0,
+    "effect_size": 0.5,
+    "significant": false
+  },
+  "explicit_mention_comparison": {
+    "test": "Z-test",
+    "statistic": -6.439862659207174,
+    "p_value": 1.1958165889038019e-10,
+    "effect_size": 0.13816957453321088,
+    "significant": true,
+    "proportions": {
+      "false_negatives": 0.837037037037037,
+      "true_positives": 0.9752066115702479
+    }
+  },
+  "has_code_example_comparison": {
+    "test": "Z-test",
+    "statistic": NaN,
+    "p_value": NaN,
+    "effect_size": 0.0,
+    "significant": false,
+    "proportions": {
+      "false_negatives": 0.0,
+      "true_positives": 0.0
+    }
+  },
+  "has_parameters_section_comparison": {
+    "test": "Z-test",
+    "statistic": -6.436968367573379,
+    "p_value": 1.2188332173457027e-10,
+    "effect_size": 0.23181308029792885,
+    "significant": true,
+    "proportions": {
+      "false_negatives": 0.43209876543209874,
+      "true_positives": 0.6639118457300276
+    }
+  },
+  "has_return_section_comparison": {
+    "test": "Z-test",
+    "statistic": -6.436968367573379,
+    "p_value": 1.2188332173457027e-10,
+    "effect_size": 0.23181308029792885,
+    "significant": true,
+    "proportions": {
+      "false_negatives": 0.43209876543209874,
+      "true_positives": 0.6639118457300276
+    }
+  },
+  "is_intro_section_comparison": {
+    "test": "Z-test",
+    "statistic": 6.436968367573376,
+    "p_value": 1.218833217345729e-10,
+    "effect_size": 0.23181308029792874,
+    "significant": true,
+    "proportions": {
+      "false_negatives": 0.5679012345679012,
+      "true_positives": 0.33608815426997246
+    }
+  },
+  "is_cli_artifact_comparison": {
+    "test": "Z-test",
+    "statistic": 15.260949083235383,
+    "p_value": 1.3920871895421284e-52,
+    "effect_size": 0.5052137536986022,
+    "significant": true,
+    "proportions": {
+      "false_negatives": 0.5382716049382716,
+      "true_positives": 0.03305785123966942
+    }
+  },
+  "granularity_distribution": {
+    "test": "Chi-square",
+    "statistic": 46.366754068955025,
+    "p_value": 9.806538392304138e-12,
+    "significant": true,
+    "categories": [
+      "Method",
+      "Class"
+    ],
+    "distributions": {
+      "false_negatives": {
+        "Method": 0.8493827160493828,
+        "Class": 0.1506172839506173
+      },
+      "true_positives": {
+        "Method": 0.9889807162534435,
+        "Class": 0.011019283746556474
+      }
+    }
+  }
+}

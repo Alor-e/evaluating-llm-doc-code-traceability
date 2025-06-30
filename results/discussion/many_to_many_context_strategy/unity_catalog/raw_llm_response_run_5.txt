@@ -1,0 +1,119 @@
+{
+  "traces": [
+    {
+      "doc_id": "doc_1",
+      "traced_artifacts": [
+        {
+          "artifact_id": 29,
+          "title": "SchemaCli.createSchema",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet directly describes the createSchema method of the SchemaCli class, which implements the creation of a new schema using the SchemasApi.",
+          "trace_chain": "doc_1 -> SchemaCli.createSchema -> SchemaRepository.createSchema",
+          "trace_chain_explanation": "The SchemaCli.createSchema method likely calls the SchemaRepository.createSchema method to persist the schema in the database."
+        },
+        {
+          "artifact_id": 35,
+          "title": "SchemaRepository.createSchema",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the SchemaCli.createSchema method likely uses the SchemaRepository.createSchema method to persist the schema in the database.",
+          "trace_chain": "doc_1 -> SchemaCli.createSchema -> SchemaRepository.createSchema",
+          "trace_chain_explanation": "The SchemaCli.createSchema method processes the input and then likely calls SchemaRepository.createSchema to perform the actual database operation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_2",
+      "traced_artifacts": [
+        {
+          "artifact_id": 30,
+          "title": "SchemaCli.deleteSchema",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet directly describes the deleteSchema method of the SchemaCli class, which implements the deletion of a schema using the SchemasApi.",
+          "trace_chain": "doc_2 -> SchemaCli.deleteSchema -> SchemaRepository.deleteSchema",
+          "trace_chain_explanation": "The SchemaCli.deleteSchema method likely calls the SchemaRepository.deleteSchema method to remove the schema from the database."
+        },
+        {
+          "artifact_id": 36,
+          "title": "SchemaRepository.deleteSchema",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the SchemaCli.deleteSchema method likely uses the SchemaRepository.deleteSchema method to remove the schema from the database.",
+          "trace_chain": "doc_2 -> SchemaCli.deleteSchema -> SchemaRepository.deleteSchema",
+          "trace_chain_explanation": "The SchemaCli.deleteSchema method processes the input and then likely calls SchemaRepository.deleteSchema to perform the actual database operation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_3",
+      "traced_artifacts": [
+        {
+          "artifact_id": 16,
+          "title": "FunctionCli.createFunction",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet directly describes the createFunction method of the FunctionCli class, which implements the creation of a new function using the FunctionsApi.",
+          "trace_chain": "doc_3 -> FunctionCli.createFunction -> FunctionRepository.createFunction",
+          "trace_chain_explanation": "The FunctionCli.createFunction method likely calls the FunctionRepository.createFunction method to persist the function in the database."
+        },
+        {
+          "artifact_id": 21,
+          "title": "FunctionRepository.createFunction",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the FunctionCli.createFunction method likely uses the FunctionRepository.createFunction method to persist the function in the database.",
+          "trace_chain": "doc_3 -> FunctionCli.createFunction -> FunctionRepository.createFunction",
+          "trace_chain_explanation": "The FunctionCli.createFunction method processes the input and then likely calls FunctionRepository.createFunction to perform the actual database operation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_4",
+      "traced_artifacts": [
+        {
+          "artifact_id": 60,
+          "title": "VolumeCli.createVolume",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet directly describes the createVolume method of the VolumeCli class, which implements the creation of a new volume using the VolumesApi.",
+          "trace_chain": "doc_4 -> VolumeCli.createVolume -> VolumeRepository.createVolume",
+          "trace_chain_explanation": "The VolumeCli.createVolume method likely calls the VolumeRepository.createVolume method to persist the volume in the database."
+        },
+        {
+          "artifact_id": 66,
+          "title": "VolumeRepository.createVolume",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the VolumeCli.createVolume method likely uses the VolumeRepository.createVolume method to persist the volume in the database.",
+          "trace_chain": "doc_4 -> VolumeCli.createVolume -> VolumeRepository.createVolume",
+          "trace_chain_explanation": "The VolumeCli.createVolume method processes the input and then likely calls VolumeRepository.createVolume to perform the actual database operation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_5",
+      "traced_artifacts": [
+        {
+          "artifact_id": 0,
+          "title": "CatalogCli.createCatalog",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet directly describes the createCatalog method of the CatalogCli class, which implements the creation of a new catalog using the CatalogsApi.",
+          "trace_chain": "doc_5 -> CatalogCli.createCatalog -> CatalogRepository.addCatalog",
+          "trace_chain_explanation": "The CatalogCli.createCatalog method likely calls the CatalogRepository.addCatalog method to persist the catalog in the database."
+        },
+        {
+          "artifact_id": 6,
+          "title": "CatalogRepository.addCatalog",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "While not explicitly mentioned, the CatalogCli.createCatalog method likely uses the CatalogRepository.addCatalog method to persist the catalog in the database.",
+          "trace_chain": "doc_5 -> CatalogCli.createCatalog -> CatalogRepository.addCatalog",
+          "trace_chain_explanation": "The CatalogCli.createCatalog method processes the input and then likely calls CatalogRepository.addCatalog to perform the actual database operation."
+        }
+      ]
+    }
+  ]
+}

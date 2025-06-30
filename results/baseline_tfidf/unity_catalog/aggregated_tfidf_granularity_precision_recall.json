@@ -1,0 +1,22 @@
+{
+  "average_f1": 0.692857142857143,
+  "average_precision": 0.776,
+  "average_recall": 0.6258064516129033,
+  "average_threshold": 0.15000000000000002,
+  "average_total_predicted_links": 125.0,
+  "average_predicted_links_by_granularity": {
+    "Method": {
+      "precision": 0.7543859649122807,
+      "recall": 0.6056338028169014,
+      "f1": 0.671875,
+      "predicted_links": 114.0
+    },
+    "Class": {
+      "precision": 1.0,
+      "recall": 0.8461538461538461,
+      "f1": 0.9166666666666666,
+      "predicted_links": 11.0
+    }
+  },
+  "n_runs": 5
+}

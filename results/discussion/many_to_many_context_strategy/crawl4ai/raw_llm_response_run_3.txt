@@ -1,0 +1,207 @@
+{
+  "traces": [
+    {
+      "doc_id": "doc_4",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet discusses the quickstart guide for using AsyncWebCrawler. It explicitly mentions creating an instance of AsyncWebCrawler and using its 'arun' method.",
+          "trace_chain": "doc_4 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document first introduces AsyncWebCrawler, then shows how to use its 'arun' method, demonstrating the usage path from class instantiation to method call."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet shows a direct usage example of the 'arun' method of AsyncWebCrawler, demonstrating how to crawl a specific URL asynchronously.",
+          "trace_chain": "doc_4 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document explains how to create an AsyncWebCrawler instance and then use its 'arun' method, showing the logical flow from class to method use."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_8",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document snippet explicitly mentions using AsyncWebCrawler to crawl multiple URLs concurrently.",
+          "trace_chain": "doc_8 -> AsyncWebCrawler -> AsyncWebCrawler.arun_many()",
+          "trace_chain_explanation": "The document introduces AsyncWebCrawler and then shows how to use its 'arun_many' method for concurrent crawling, demonstrating the progression from class to specific method use."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_9",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet directly demonstrates the usage of AsyncWebCrawler for crawling a single URL and accessing the crawl result.",
+          "trace_chain": "doc_9 -> AsyncWebCrawler -> AsyncWebCrawler.arun() -> CrawlResult",
+          "trace_chain_explanation": "The document shows how to use AsyncWebCrawler to crawl a URL, which returns a CrawlResult object, illustrating the flow from crawler usage to result handling."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet shows a direct usage example of the 'arun' method of AsyncWebCrawler to crawl a specific URL.",
+          "trace_chain": "doc_9 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document demonstrates creating an AsyncWebCrawler instance and then using its 'arun' method, showing the logical progression from class instantiation to method use."
+        },
+        {
+          "artifact_id": 8,
+          "title": "CrawlResult",
+          "relationship": "implicit",
+          "relationship_type": "returns",
+          "relationship_explanation": "The snippet implicitly uses CrawlResult when accessing properties like 'html' and 'markdown' from the crawl result.",
+          "trace_chain": "doc_9 -> AsyncWebCrawler -> AsyncWebCrawler.arun() -> CrawlResult",
+          "trace_chain_explanation": "The document shows how AsyncWebCrawler's 'arun' method returns a result, which is implicitly a CrawlResult object, as evidenced by accessing its properties."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_17",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet explicitly demonstrates creating an AsyncWebCrawler instance with specific configuration options.",
+          "trace_chain": "doc_17 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The document directly shows how to instantiate AsyncWebCrawler with custom parameters, illustrating the initial step in using the crawler."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_18",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet explicitly shows using AsyncWebCrawler to crawl a URL and extract content using a specific extraction strategy.",
+          "trace_chain": "doc_18 -> AsyncWebCrawler -> AsyncWebCrawler.arun() -> CosineStrategy",
+          "trace_chain_explanation": "The document demonstrates creating an AsyncWebCrawler, using its 'arun' method with a CosineStrategy for extraction, showing the flow from crawler setup to specific extraction method use."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet directly uses the 'arun' method of AsyncWebCrawler to perform the crawl operation.",
+          "trace_chain": "doc_18 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document shows creating an AsyncWebCrawler instance and then using its 'arun' method, demonstrating the progression from class to method use."
+        },
+        {
+          "artifact_id": 7,
+          "title": "CosineStrategy",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet explicitly uses CosineStrategy as the extraction strategy for the crawl operation.",
+          "trace_chain": "doc_18 -> AsyncWebCrawler -> AsyncWebCrawler.arun() -> CosineStrategy",
+          "trace_chain_explanation": "The document shows how CosineStrategy is passed to AsyncWebCrawler's 'arun' method, illustrating how different strategies can be used for content extraction."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_43",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet explicitly demonstrates creating an AsyncWebCrawler instance and using it to crawl a URL.",
+          "trace_chain": "doc_43 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document shows the creation of an AsyncWebCrawler object and then the use of its 'arun' method, illustrating the typical usage flow."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet directly uses the 'arun' method of AsyncWebCrawler to perform the crawl operation.",
+          "trace_chain": "doc_43 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document demonstrates creating an AsyncWebCrawler instance and then calling its 'arun' method, showing the logical progression from object creation to method invocation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_51",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet explicitly shows creating an AsyncWebCrawler instance with specific configuration options.",
+          "trace_chain": "doc_51 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The document directly demonstrates how to instantiate AsyncWebCrawler with custom parameters, illustrating the initial setup for crawling."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_65",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet explicitly demonstrates creating an AsyncWebCrawler instance and using it to crawl multiple URLs concurrently.",
+          "trace_chain": "doc_65 -> AsyncWebCrawler -> AsyncWebCrawler.arun_many()",
+          "trace_chain_explanation": "The document shows how to create an AsyncWebCrawler object and then use its 'arun_many' method for concurrent crawling, illustrating the flow from crawler creation to batch operation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_85",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet explicitly demonstrates creating an AsyncWebCrawler instance with specific configuration options.",
+          "trace_chain": "doc_85 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The document directly shows how to instantiate AsyncWebCrawler with custom parameters, illustrating the initial setup process for the crawler."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_108",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet explicitly demonstrates creating an AsyncWebCrawler instance and using it to crawl a URL.",
+          "trace_chain": "doc_108 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document shows the creation of an AsyncWebCrawler object and then the use of its 'arun' method, illustrating the typical usage flow from instantiation to crawl execution."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The snippet directly uses the 'arun' method of AsyncWebCrawler to perform the crawl operation.",
+          "trace_chain": "doc_108 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document demonstrates creating an AsyncWebCrawler instance and then calling its 'arun' method, showing the logical progression from object creation to method invocation for crawling."
+        }
+      ]
+    }
+  ]
+}

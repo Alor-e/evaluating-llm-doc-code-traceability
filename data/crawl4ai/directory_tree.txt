@@ -1,0 +1,170 @@
+.
+├── CHANGELOG.md
+├── CONTRIBUTORS.md
+├── LICENSE
+├── MANIFEST.in
+├── MISSION.md
+├── README.md
+├── README.sync.md
+├── crawl4ai
+│   ├── __init__.py
+│   ├── async_crawler_strategy copy.py
+│   ├── async_crawler_strategy.py
+│   ├── async_database.py
+│   ├── async_webcrawler.py
+│   ├── chunking_strategy.py
+│   ├── config.py
+│   ├── content_cleaning_strategy.py
+│   ├── content_scrapping_strategy.py
+│   ├── crawler_strategy.py
+│   ├── database.py
+│   ├── extraction_strategy.py
+│   ├── html2text
+│   │   ├── __init__.py
+│   │   ├── __main__.py
+│   │   ├── _typing.py
+│   │   ├── cli.py
+│   │   ├── config.py
+│   │   ├── elements.py
+│   │   └── utils.py
+│   ├── model_loader.py
+│   ├── models
+│   │   └── onnx
+│   │       ├── config.json
+│   │       ├── model.onnx
+│   │       ├── special_tokens_map.json
+│   │       ├── tokenizer.json
+│   │       ├── tokenizer_config.json
+│   │       └── vocab.txt
+│   ├── models.py
+│   ├── prompts.py
+│   ├── train.py
+│   ├── utils.py
+│   ├── web_crawler.back.py
+│   └── web_crawler.py
+├── docs
+│   ├── assets
+│   │   ├── pitch-dark.png
+│   │   └── pitch-dark.svg
+│   ├── examples
+│   │   ├── assets
+│   │   │   ├── audio.mp3
+│   │   │   ├── basic.png
+│   │   │   ├── cosine_extraction.png
+│   │   │   ├── css_js.png
+│   │   │   ├── css_selector.png
+│   │   │   ├── exec_script.png
+│   │   │   ├── llm_extraction.png
+│   │   │   ├── semantic_extraction_cosine.png
+│   │   │   └── semantic_extraction_llm.png
+│   │   ├── async_webcrawler_multiple_urls_example.py
+│   │   ├── chainlit.md
+│   │   ├── crawlai_vs_firecrawl.py
+│   │   ├── language_support_example.py
+│   │   ├── llm_extraction_openai_pricing.py
+│   │   ├── quickstart.ipynb
+│   │   ├── quickstart_async.py
+│   │   ├── quickstart_sync.py
+│   │   ├── quickstart_v0.ipynb
+│   │   ├── research_assistant.py
+│   │   ├── rest_call.py
+│   │   ├── sample_ecommerce.html
+│   │   ├── summarize_page.py
+│   │   └── tmp
+│   │       ├── chainlit_review.py
+│   │       └── research_assistant_audio_not_completed.py
+│   ├── md_v2
+│   │   ├── advanced
+│   │   │   ├── content-processing.md
+│   │   │   ├── hooks-auth.md
+│   │   │   ├── hooks.md
+│   │   │   ├── magic-mode.md
+│   │   │   ├── proxy-security.md
+│   │   │   ├── session-management-advanced.md
+│   │   │   └── session-management.md
+│   │   ├── api
+│   │   │   ├── arun.md
+│   │   │   ├── async-webcrawler.md
+│   │   │   ├── crawl-result.md
+│   │   │   └── strategies.md
+│   │   ├── assets
+│   │   │   ├── DankMono-Bold.woff2
+│   │   │   ├── DankMono-Italic.woff2
+│   │   │   ├── DankMono-Regular.woff2
+│   │   │   ├── Monaco.woff
+│   │   │   ├── dmvendor.css
+│   │   │   ├── docs.zip
+│   │   │   ├── highlight.css
+│   │   │   ├── highlight.min.js
+│   │   │   ├── highlight_init.js
+│   │   │   └── styles.css
+│   │   ├── basic
+│   │   │   ├── browser-config.md
+│   │   │   ├── content-selection.md
+│   │   │   ├── installation.md
+│   │   │   ├── output-formats.md
+│   │   │   ├── page-interaction.md
+│   │   │   ├── quickstart.md
+│   │   │   └── simple-crawling.md
+│   │   ├── extraction
+│   │   │   ├── chunking.md
+│   │   │   ├── cosine.md
+│   │   │   ├── css-advanced.md
+│   │   │   ├── css.md
+│   │   │   ├── llm.md
+│   │   │   └── overview.md
+│   │   ├── index.md
+│   │   └── tutorial
+│   │       ├── episode_01_Introduction_to_Crawl4AI_and_Basic_Installation.md
+│   │       ├── episode_02_Overview_of_Advanced_Features.md
+│   │       ├── episode_03_Browser_Configurations_&_Headless_Crawling.md
+│   │       ├── episode_04_Advanced_Proxy_and_Security_Settings.md
+│   │       ├── episode_05_JavaScript_Execution_and_Dynamic_Content_Handling.md
+│   │       ├── episode_06_Magic_Mode_and_Anti-Bot_Protection.md
+│   │       ├── episode_07_Content_Cleaning_and_Fit_Markdown.md
+│   │       ├── episode_08_Media_Handling:_Images,_Videos,_and_Audio.md
+│   │       ├── episode_09_Link_Analysis_and_Smart_Filtering.md
+│   │       ├── episode_10_Custom_Headers,_Identity,_and_User_Simulation.md
+│   │       ├── episode_11_1_Extraction_Strategies:_JSON_CSS.md
+│   │       ├── episode_11_2_Extraction_Strategies:_LLM.md
+│   │       ├── episode_11_3_Extraction_Strategies:_Cosine.md
+│   │       ├── episode_12_Session-Based_Crawling_for_Dynamic_Websites.md
+│   │       ├── episode_13_Chunking_Strategies_for_Large_Text_Processing.md
+│   │       ├── episode_14_Hooks_and_Custom_Workflow_with_AsyncWebCrawler.md
+│   │       └── tutorial.md
+│   └── notebooks
+│       └── Crawl4AI_v0.3.72_Release_Announcement.ipynb
+├── main.py
+├── middlewares.py
+├── mkdocs.yml
+├── pages
+│   ├── app.css
+│   ├── app.js
+│   ├── index copy.html
+│   ├── index.html
+│   ├── index_pooling.html
+│   ├── partial
+│   │   ├── footer.html
+│   │   ├── how_to_guide.html
+│   │   ├── installation.html
+│   │   └── try_it.html
+│   └── tmp.html
+├── requirements-dev.txt
+├── requirements.txt
+├── setup.cfg
+├── setup.py
+└── tests
+    ├── __init__.py
+    ├── async
+    │   ├── test_basic_crawling.py
+    │   ├── test_caching.py
+    │   ├── test_chunking_and_extraction_strategies.py
+    │   ├── test_content_extraction.py
+    │   ├── test_crawler_strategy.py
+    │   ├── test_database_operations.py
+    │   ├── test_edge_cases.py
+    │   ├── test_error_handling.py
+    │   ├── test_parameters_and_options.py
+    │   ├── test_performance.py
+    │   └── test_screenshot.py
+    └── test_web_crawler.py

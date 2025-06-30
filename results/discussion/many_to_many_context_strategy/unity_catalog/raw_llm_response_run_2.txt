@@ -1,0 +1,110 @@
+{
+  "traces": [
+    {
+      "doc_id": "doc_1",
+      "traced_artifacts": [
+        {
+          "artifact_id": 29,
+          "title": "SchemaCli.createSchema",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createSchema operation, which is directly implemented by the SchemaCli.createSchema method. The method uses the SchemasApi to create a new schema with the provided details.",
+          "trace_chain": "doc_1 -> SchemaCli.createSchema -> SchemaService.createSchema",
+          "trace_chain_explanation": "The document describes the API for creating a schema, which is implemented by SchemaCli.createSchema. This method likely calls the server-side SchemaService.createSchema to perform the actual creation."
+        },
+        {
+          "artifact_id": 40,
+          "title": "SchemaService.createSchema",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "While not explicitly mentioned, the SchemaService.createSchema method is likely the server-side implementation that corresponds to the API described in the document for creating a schema.",
+          "trace_chain": "doc_1 -> SchemaCli.createSchema -> SchemaService.createSchema",
+          "trace_chain_explanation": "The document describes the API, which is implemented client-side by SchemaCli.createSchema, which in turn would call the server-side SchemaService.createSchema to perform the actual creation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_2",
+      "traced_artifacts": [
+        {
+          "artifact_id": 16,
+          "title": "FunctionCli.createFunction",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createFunction operation, which is directly implemented by the FunctionCli.createFunction method. The method uses the FunctionsApi to create a new function with the provided details.",
+          "trace_chain": "doc_2 -> FunctionCli.createFunction -> FunctionService.createFunction",
+          "trace_chain_explanation": "The document describes the API for creating a function, which is implemented by FunctionCli.createFunction. This method likely calls the server-side FunctionService.createFunction to perform the actual creation."
+        },
+        {
+          "artifact_id": 25,
+          "title": "FunctionService.createFunction",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "While not explicitly mentioned, the FunctionService.createFunction method is likely the server-side implementation that corresponds to the API described in the document for creating a function.",
+          "trace_chain": "doc_2 -> FunctionCli.createFunction -> FunctionService.createFunction",
+          "trace_chain_explanation": "The document describes the API, which is implemented client-side by FunctionCli.createFunction, which in turn would call the server-side FunctionService.createFunction to perform the actual creation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_3",
+      "traced_artifacts": [
+        {
+          "artifact_id": 58,
+          "title": "TemporaryTableCredentialsService.generateTemporaryTableCredentials",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the generateTemporaryTableCredentials operation, which is directly implemented by the TemporaryTableCredentialsService.generateTemporaryTableCredentials method. This method generates temporary credentials for accessing a table.",
+          "trace_chain": "doc_3 -> TemporaryTableCredentialsService.generateTemporaryTableCredentials",
+          "trace_chain_explanation": "The document describes the API for generating temporary table credentials, which is directly implemented by the TemporaryTableCredentialsService.generateTemporaryTableCredentials method."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_4",
+      "traced_artifacts": [
+        {
+          "artifact_id": 0,
+          "title": "CatalogCli.createCatalog",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createCatalog operation, which is directly implemented by the CatalogCli.createCatalog method. The method uses the CatalogsApi to create a new catalog with the provided details.",
+          "trace_chain": "doc_4 -> CatalogCli.createCatalog -> CatalogService.createCatalog",
+          "trace_chain_explanation": "The document describes the API for creating a catalog, which is implemented by CatalogCli.createCatalog. This method likely calls the server-side CatalogService.createCatalog to perform the actual creation."
+        },
+        {
+          "artifact_id": 11,
+          "title": "CatalogService.createCatalog",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "While not explicitly mentioned, the CatalogService.createCatalog method is likely the server-side implementation that corresponds to the API described in the document for creating a catalog.",
+          "trace_chain": "doc_4 -> CatalogCli.createCatalog -> CatalogService.createCatalog",
+          "trace_chain_explanation": "The document describes the API, which is implemented client-side by CatalogCli.createCatalog, which in turn would call the server-side CatalogService.createCatalog to perform the actual creation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_5",
+      "traced_artifacts": [
+        {
+          "artifact_id": 60,
+          "title": "VolumeCli.createVolume",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet describes the createVolume operation, which is directly implemented by the VolumeCli.createVolume method. The method uses the VolumesApi to create a new volume with the provided details.",
+          "trace_chain": "doc_5 -> VolumeCli.createVolume -> VolumeService.createVolume",
+          "trace_chain_explanation": "The document describes the API for creating a volume, which is implemented by VolumeCli.createVolume. This method likely calls the server-side VolumeService.createVolume to perform the actual creation."
+        },
+        {
+          "artifact_id": 71,
+          "title": "VolumeService.createVolume",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "While not explicitly mentioned, the VolumeService.createVolume method is likely the server-side implementation that corresponds to the API described in the document for creating a volume.",
+          "trace_chain": "doc_5 -> VolumeCli.createVolume -> VolumeService.createVolume",
+          "trace_chain_explanation": "The document describes the API, which is implemented client-side by VolumeCli.createVolume, which in turn would call the server-side VolumeService.createVolume to perform the actual creation."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,246 @@
+{
+  "traces": [
+    {
+      "doc_id": "doc_1",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document snippet mentions 'AsyncWebCrawler' and discusses advanced content processing features, which are likely implemented in this class.",
+          "trace_chain": "doc_1 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The document directly references the AsyncWebCrawler class."
+        },
+        {
+          "artifact_id": 5,
+          "title": "AsyncWebCrawler.arun()",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document discusses advanced content processing, which is likely handled by the arun() method of AsyncWebCrawler.",
+          "trace_chain": "doc_1 -> AsyncWebCrawler -> AsyncWebCrawler.arun()",
+          "trace_chain_explanation": "The document references AsyncWebCrawler, which contains the arun() method for executing crawl operations."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_2",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses chunking strategies, which are implemented by the ChunkingStrategy class.",
+          "trace_chain": "doc_2 -> ChunkingStrategy",
+          "trace_chain_explanation": "The document directly references chunking strategies, which are implemented by the ChunkingStrategy class."
+        },
+        {
+          "artifact_id": 26,
+          "title": "RegexChunking",
+          "relationship": "implicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses chunking strategies, and RegexChunking is a specific implementation of ChunkingStrategy.",
+          "trace_chain": "doc_2 -> ChunkingStrategy -> RegexChunking",
+          "trace_chain_explanation": "The document references chunking strategies, which are implemented by ChunkingStrategy, and RegexChunking is a specific implementation."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_5",
+      "traced_artifacts": [
+        {
+          "artifact_id": 1,
+          "title": "AsyncPlaywrightCrawlerStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses browser configuration, which is likely implemented in the AsyncPlaywrightCrawlerStrategy class.",
+          "trace_chain": "doc_5 -> AsyncPlaywrightCrawlerStrategy",
+          "trace_chain_explanation": "The document directly references browser configuration, which is handled by AsyncPlaywrightCrawlerStrategy."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_7",
+      "traced_artifacts": [
+        {
+          "artifact_id": 1,
+          "title": "AsyncPlaywrightCrawlerStrategy",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document discusses page interaction, which is likely implemented using the AsyncPlaywrightCrawlerStrategy.",
+          "trace_chain": "doc_7 -> AsyncPlaywrightCrawlerStrategy",
+          "trace_chain_explanation": "The document references page interaction, which is handled by AsyncPlaywrightCrawlerStrategy."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_9",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "explicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document discusses quickstart guide, which likely involves using the AsyncWebCrawler class.",
+          "trace_chain": "doc_9 -> AsyncWebCrawler",
+          "trace_chain_explanation": "The quickstart guide would typically demonstrate the usage of the main AsyncWebCrawler class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_18",
+      "traced_artifacts": [
+        {
+          "artifact_id": 7,
+          "title": "CosineStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses cosine similarity, which is implemented in the CosineStrategy class.",
+          "trace_chain": "doc_18 -> CosineStrategy",
+          "trace_chain_explanation": "The document directly references cosine similarity, which is implemented by the CosineStrategy class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_21",
+      "traced_artifacts": [
+        {
+          "artifact_id": 24,
+          "title": "LLMExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses LLM-based extraction, which is implemented in the LLMExtractionStrategy class.",
+          "trace_chain": "doc_21 -> LLMExtractionStrategy",
+          "trace_chain_explanation": "The document directly references LLM-based extraction, which is implemented by the LLMExtractionStrategy class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_23",
+      "traced_artifacts": [
+        {
+          "artifact_id": 4,
+          "title": "AsyncWebCrawler",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document discusses advanced features like 'magic mode', which are likely implemented using the AsyncWebCrawler class.",
+          "trace_chain": "doc_23 -> AsyncWebCrawler",
+          "trace_chain_explanation": "Advanced features like 'magic mode' would typically be implemented in the main AsyncWebCrawler class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_26",
+      "traced_artifacts": [
+        {
+          "artifact_id": 8,
+          "title": "CrawlResult",
+          "relationship": "implicit",
+          "relationship_type": "uses",
+          "relationship_explanation": "The document discusses output formats, which are likely represented by the CrawlResult class.",
+          "trace_chain": "doc_26 -> CrawlResult",
+          "trace_chain_explanation": "Output formats discussed in the document are likely encapsulated in the CrawlResult class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_33",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses chunking strategies, which are implemented by the ChunkingStrategy class.",
+          "trace_chain": "doc_33 -> ChunkingStrategy",
+          "trace_chain_explanation": "The document directly references chunking strategies, which are implemented by the ChunkingStrategy class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_39",
+      "traced_artifacts": [
+        {
+          "artifact_id": 23,
+          "title": "JsonCssExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses CSS-based extraction, which is implemented in the JsonCssExtractionStrategy class.",
+          "trace_chain": "doc_39 -> JsonCssExtractionStrategy",
+          "trace_chain_explanation": "The document directly references CSS-based extraction, which is implemented by the JsonCssExtractionStrategy class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_40",
+      "traced_artifacts": [
+        {
+          "artifact_id": 7,
+          "title": "CosineStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses cosine similarity, which is implemented in the CosineStrategy class.",
+          "trace_chain": "doc_40 -> CosineStrategy",
+          "trace_chain_explanation": "The document directly references cosine similarity, which is implemented by the CosineStrategy class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_52",
+      "traced_artifacts": [
+        {
+          "artifact_id": 24,
+          "title": "LLMExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses LLM-based extraction, which is implemented in the LLMExtractionStrategy class.",
+          "trace_chain": "doc_52 -> LLMExtractionStrategy",
+          "trace_chain_explanation": "The document directly references LLM-based extraction, which is implemented by the LLMExtractionStrategy class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_66",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses chunking strategies, which are implemented by the ChunkingStrategy class.",
+          "trace_chain": "doc_66 -> ChunkingStrategy",
+          "trace_chain_explanation": "The document directly references chunking strategies, which are implemented by the ChunkingStrategy class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_81",
+      "traced_artifacts": [
+        {
+          "artifact_id": 24,
+          "title": "LLMExtractionStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses LLM-based extraction, which is implemented in the LLMExtractionStrategy class.",
+          "trace_chain": "doc_81 -> LLMExtractionStrategy",
+          "trace_chain_explanation": "The document directly references LLM-based extraction, which is implemented by the LLMExtractionStrategy class."
+        }
+      ]
+    },
+    {
+      "doc_id": "doc_100",
+      "traced_artifacts": [
+        {
+          "artifact_id": 6,
+          "title": "ChunkingStrategy",
+          "relationship": "explicit",
+          "relationship_type": "implements",
+          "relationship_explanation": "The document discusses chunking strategies, which are implemented by the ChunkingStrategy class.",
+          "trace_chain": "doc_100 -> ChunkingStrategy",
+          "trace_chain_explanation": "The document directly references chunking strategies, which are implemented by the ChunkingStrategy class."
+        }
+      ]
+    }
+  ]
+}

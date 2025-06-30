@@ -1,0 +1,377 @@
+.
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── Dockerfile
+├── LICENSE
+├── NOTICE
+├── README.md
+├── api
+│   ├── Apis
+│   │   ├── CatalogsApi.md
+│   │   ├── FunctionsApi.md
+│   │   ├── SchemasApi.md
+│   │   ├── TablesApi.md
+│   │   ├── TemporaryTableCredentialsApi.md
+│   │   ├── TemporaryVolumeCredentialsApi.md
+│   │   └── VolumesApi.md
+│   ├── Models
+│   │   ├── AwsCredentials.md
+│   │   ├── CatalogInfo.md
+│   │   ├── ColumnInfo.md
+│   │   ├── ColumnTypeName.md
+│   │   ├── CreateCatalog.md
+│   │   ├── CreateFunction.md
+│   │   ├── CreateFunctionRequest.md
+│   │   ├── CreateSchema.md
+│   │   ├── CreateTable.md
+│   │   ├── CreateVolumeRequestContent.md
+│   │   ├── DataSourceFormat.md
+│   │   ├── Dependency.md
+│   │   ├── DependencyList.md
+│   │   ├── FunctionDependency.md
+│   │   ├── FunctionInfo.md
+│   │   ├── FunctionParameterInfo.md
+│   │   ├── FunctionParameterInfos.md
+│   │   ├── FunctionParameterMode.md
+│   │   ├── FunctionParameterType.md
+│   │   ├── GenerateTemporaryTableCredential.md
+│   │   ├── GenerateTemporaryTableCredentialResponse.md
+│   │   ├── GenerateTemporaryVolumeCredential.md
+│   │   ├── GenerateTemporaryVolumeCredentialResponse.md
+│   │   ├── ListCatalogsResponse.md
+│   │   ├── ListFunctionsResponse.md
+│   │   ├── ListSchemasResponse.md
+│   │   ├── ListTablesResponse.md
+│   │   ├── ListVolumesResponseContent.md
+│   │   ├── SchemaInfo.md
+│   │   ├── TableDependency.md
+│   │   ├── TableInfo.md
+│   │   ├── TableOperation.md
+│   │   ├── TableType.md
+│   │   ├── UpdateCatalog.md
+│   │   ├── UpdateSchema.md
+│   │   ├── UpdateVolumeRequestContent.md
+│   │   ├── VolumeInfo.md
+│   │   ├── VolumeOperation.md
+│   │   └── VolumeType.md
+│   ├── README.md
+│   └── all.yaml
+├── bin
+│   ├── start-uc-server
+│   └── uc
+├── build
+│   ├── sbt
+│   ├── sbt-config
+│   │   └── repositories
+│   └── sbt-launch-lib.bash
+├── build.sbt
+├── connectors
+│   └── spark
+│       ├── etc
+│       │   └── conf
+│       │       ├── hibernate.properties
+│       │       └── server.properties
+│       └── src
+│           ├── main
+│           │   └── scala
+│           │       └── io
+│           │           └── unitycatalog
+│           │               └── connectors
+│           │                   └── spark
+│           │                       └── UCSingleCatalog.scala
+│           └── test
+│               └── java
+│                   └── io
+│                       └── unitycatalog
+│                           └── connectors
+│                               └── spark
+│                                   ├── BaseSparkIntegrationTest.java
+│                                   ├── CredentialTestFileSystem.java
+│                                   ├── SchemaOperationsTest.java
+│                                   └── TableReadWriteTest.java
+├── dev
+│   ├── checkstyle-config.xml
+│   └── checkstyle-suppressions.xml
+├── docker
+│   ├── README.md
+│   └── bin
+│       ├── build-uc-cli-docker
+│       ├── build-uc-server-docker
+│       ├── start-uc-cli-in-docker
+│       └── start-uc-server-in-docker
+├── docs
+│   ├── assets
+│   │   └── images
+│   │       ├── lfaidata-project-badge-sandbox-color.png
+│   │       ├── uc-3-level.png
+│   │       ├── uc-logo.png
+│   │       ├── uc.png
+│   │       ├── uc_create_table.png
+│   │       ├── uc_example_catalog.png
+│   │       ├── uc_function_metadata.png
+│   │       ├── uc_functions.png
+│   │       ├── uc_invoke_function.png
+│   │       ├── uc_invoke_function2.png
+│   │       ├── uc_java_version.png
+│   │       ├── uc_list_tables.png
+│   │       ├── uc_query_table.png
+│   │       ├── uc_quickstart_schema_list.png
+│   │       ├── uc_quickstart_table_contents.png
+│   │       ├── uc_quickstart_table_list.png
+│   │       ├── uc_quickstart_table_metadata.png
+│   │       ├── uc_read_random_table.png
+│   │       ├── uc_server.png
+│   │       ├── uc_volume_example.png
+│   │       ├── uc_volume_get.png
+│   │       ├── uc_volume_list.png
+│   │       ├── uc_volume_read.png
+│   │       ├── uc_volume_read_external.png
+│   │       └── uc_volume_read_file.png
+│   ├── deployment.md
+│   ├── index.md
+│   ├── integrations
+│   │   ├── unity-catalog-daft.md
+│   │   ├── unity-catalog-duckdb.md
+│   │   └── unity-catalog-xtable.md
+│   ├── quickstart.md
+│   └── usage
+│       ├── cli.md
+│       ├── functions.md
+│       ├── server.md
+│       ├── tables
+│       │   ├── deltalake.md
+│       │   ├── index.md
+│       │   └── uniform.md
+│       └── volumes.md
+├── etc
+│   ├── conf
+│   │   ├── cli.log4j2.properties
+│   │   ├── hibernate.properties
+│   │   ├── server.log4j2.properties
+│   │   └── server.properties
+│   ├── data
+│   │   ├── external
+│   │   │   └── unity
+│   │   │       └── default
+│   │   │           ├── tables
+│   │   │           │   ├── marksheet_uniform
+│   │   │           │   │   ├── _delta_log
+│   │   │           │   │   │   ├── 00000000000000000000.json
+│   │   │           │   │   │   └── 00000000000000000001.json
+│   │   │           │   │   ├── metadata
+│   │   │           │   │   │   ├── 00000-cb4b21f7-5602-4320-8584-e7c52cb9f4cf.metadata.json
+│   │   │           │   │   │   ├── 00001-d766d6c3-71c1-4964-b76b-6e84ff0b0f8b.metadata.json
+│   │   │           │   │   │   ├── 00002-5b7aa739-d074-4764-b49d-ad6c63419576.metadata.json
+│   │   │           │   │   │   ├── 3d76bd5d-21ad-4512-9c62-35ddd82eceed-m0.avro
+│   │   │           │   │   │   └── snap-1249442174133317666-1-3d76bd5d-21ad-4512-9c62-35ddd82eceed.avro
+│   │   │           │   │   └── part-00000-5af50cc4-3218-465b-a3a4-eb4fc709421d-c000.snappy.parquet
+│   │   │           │   ├── numbers
+│   │   │           │   │   ├── _delta_log
+│   │   │           │   │   │   └── 00000000000000000000.json
+│   │   │           │   │   └── d1df15d1-33d8-45ab-ad77-465476e2d5cd-000.parquet
+│   │   │           │   └── user_countries
+│   │   │           │       ├── _delta_log
+│   │   │           │       │   └── 00000000000000000000.json
+│   │   │           │       ├── country=Austria
+│   │   │           │       │   └── 0-7cab17ea-8731-49dd-978e-dd470c1263e7-0.parquet
+│   │   │           │       ├── country=Belgia
+│   │   │           │       │   └── 0-7cab17ea-8731-49dd-978e-dd470c1263e7-0.parquet
+│   │   │           │       └── country=Serbia
+│   │   │           │           └── 0-7cab17ea-8731-49dd-978e-dd470c1263e7-0.parquet
+│   │   │           └── volumes
+│   │   │               └── json_files
+│   │   │                   ├── c.json
+│   │   │                   ├── d.json
+│   │   │                   └── dir1
+│   │   │                       └── e.json
+│   │   ├── function
+│   │   │   └── python_engine.py
+│   │   └── managed
+│   │       └── unity
+│   │           └── default
+│   │               ├── tables
+│   │               │   └── marksheet
+│   │               │       ├── 027fe86d-9338-4b86-b5f9-a1f9ba95e682-000.parquet
+│   │               │       └── _delta_log
+│   │               │           ├── 00000000000000000000.json
+│   │               │           └── 00000000000000000001.json
+│   │               └── volumes
+│   │                   └── txt_files
+│   │                       ├── a.txt
+│   │                       └── b.txt
+│   └── db
+│       ├── h2db.mv.db
+│       ├── mysql-example.yml
+│       └── postgres-example.yml
+├── examples
+│   └── cli
+│       └── src
+│           ├── main
+│           │   ├── java
+│           │   │   └── io
+│           │   │       └── unitycatalog
+│           │   │           └── cli
+│           │   │               ├── CatalogCli.java
+│           │   │               ├── FunctionCli.java
+│           │   │               ├── SchemaCli.java
+│           │   │               ├── TableCli.java
+│           │   │               ├── UnityCatalogCli.java
+│           │   │               ├── VolumeCli.java
+│           │   │               ├── delta
+│           │   │               │   ├── ColumnVectorUtils.java
+│           │   │               │   ├── DeltaKernelReadUtils.java
+│           │   │               │   ├── DeltaKernelUtils.java
+│           │   │               │   └── DeltaKernelWriteUtils.java
+│           │   │               └── utils
+│           │   │                   ├── CliException.java
+│           │   │                   ├── CliParams.java
+│           │   │                   ├── CliUtils.java
+│           │   │                   └── PythonInvoker.java
+│           │   └── resources
+│           │       └── application.properties
+│           └── test
+│               └── java
+│                   └── io
+│                       └── unitycatalog
+│                           └── cli
+│                               ├── TestUtils.java
+│                               ├── catalog
+│                               │   ├── CliCatalogCRUDTest.java
+│                               │   └── CliCatalogOperations.java
+│                               ├── function
+│                               │   ├── CliFunctionCRUDTest.java
+│                               │   └── CliFunctionOperations.java
+│                               ├── schema
+│                               │   ├── CliSchemaCRUDTest.java
+│                               │   └── CliSchemaOperations.java
+│                               ├── table
+│                               │   ├── CliExternalTableCreationTest.java
+│                               │   ├── CliTableCRUDTest.java
+│                               │   └── CliTableOperations.java
+│                               └── volume
+│                                   ├── CliVolumeCRUDTest.java
+│                                   └── CliVolumeOperations.java
+├── mkdocs.yml
+├── project
+│   ├── ReleaseSettings.scala
+│   ├── Tarball.scala
+│   ├── build.properties
+│   └── plugins.sbt
+├── requirements-docs.txt
+├── server
+│   └── src
+│       ├── main
+│       │   └── java
+│       │       └── io
+│       │           └── unitycatalog
+│       │               └── server
+│       │                   ├── URLTranscoderVerticle.java
+│       │                   ├── UnityCatalogServer.java
+│       │                   ├── exception
+│       │                   │   ├── BaseException.java
+│       │                   │   ├── ErrorCode.java
+│       │                   │   ├── GlobalExceptionHandler.java
+│       │                   │   └── IcebergRestExceptionHandler.java
+│       │                   ├── persist
+│       │                   │   ├── CatalogRepository.java
+│       │                   │   ├── FunctionRepository.java
+│       │                   │   ├── PropertyRepository.java
+│       │                   │   ├── SchemaRepository.java
+│       │                   │   ├── TableRepository.java
+│       │                   │   ├── VolumeRepository.java
+│       │                   │   ├── dao
+│       │                   │   │   ├── CatalogInfoDAO.java
+│       │                   │   │   ├── ColumnInfoDAO.java
+│       │                   │   │   ├── FunctionInfoDAO.java
+│       │                   │   │   ├── FunctionParameterInfoDAO.java
+│       │                   │   │   ├── IdentifiableDAO.java
+│       │                   │   │   ├── PropertyDAO.java
+│       │                   │   │   ├── SchemaInfoDAO.java
+│       │                   │   │   ├── TableInfoDAO.java
+│       │                   │   │   └── VolumeInfoDAO.java
+│       │                   │   └── utils
+│       │                   │       ├── FileUtils.java
+│       │                   │       ├── HibernateUtils.java
+│       │                   │       ├── PagedListingHelper.java
+│       │                   │       ├── RepositoryUtils.java
+│       │                   │       └── ServerPropertiesUtils.java
+│       │                   ├── service
+│       │                   │   ├── CatalogService.java
+│       │                   │   ├── FunctionService.java
+│       │                   │   ├── IcebergRestCatalogService.java
+│       │                   │   ├── SchemaService.java
+│       │                   │   ├── TableService.java
+│       │                   │   ├── TemporaryTableCredentialsService.java
+│       │                   │   ├── TemporaryVolumeCredentialsService.java
+│       │                   │   ├── VolumeService.java
+│       │                   │   └── iceberg
+│       │                   │       ├── FileIOFactory.java
+│       │                   │       ├── MetadataService.java
+│       │                   │       └── SimpleLocalFileIO.java
+│       │                   └── utils
+│       │                       ├── ColumnUtils.java
+│       │                       ├── Constants.java
+│       │                       ├── JsonUtils.java
+│       │                       ├── RESTObjectMapper.java
+│       │                       ├── TemporaryCredentialUtils.java
+│       │                       ├── ThrowingFunction.java
+│       │                       └── ValidationUtils.java
+│       └── test
+│           ├── java
+│           │   └── io
+│           │       └── unitycatalog
+│           │           └── server
+│           │               ├── base
+│           │               │   ├── BaseCRUDTest.java
+│           │               │   ├── BaseServerTest.java
+│           │               │   ├── ServerConfig.java
+│           │               │   ├── catalog
+│           │               │   │   ├── BaseCatalogCRUDTest.java
+│           │               │   │   └── CatalogOperations.java
+│           │               │   ├── function
+│           │               │   │   ├── BaseFunctionCRUDTest.java
+│           │               │   │   └── FunctionOperations.java
+│           │               │   ├── schema
+│           │               │   │   ├── BaseSchemaCRUDTest.java
+│           │               │   │   └── SchemaOperations.java
+│           │               │   ├── table
+│           │               │   │   ├── BaseTableCRUDTest.java
+│           │               │   │   └── TableOperations.java
+│           │               │   └── volume
+│           │               │       ├── BaseVolumeCRUDTest.java
+│           │               │       └── VolumeOperations.java
+│           │               ├── sdk
+│           │               │   ├── catalog
+│           │               │   │   ├── SdkCatalogCRUDTest.java
+│           │               │   │   └── SdkCatalogOperations.java
+│           │               │   ├── function
+│           │               │   │   ├── SdkFunctionCRUDTest.java
+│           │               │   │   └── SdkFunctionOperations.java
+│           │               │   ├── schema
+│           │               │   │   ├── SdkSchemaCRUDTest.java
+│           │               │   │   └── SdkSchemaOperations.java
+│           │               │   ├── tables
+│           │               │   │   ├── SdkTableCRUDTest.java
+│           │               │   │   └── SdkTableOperations.java
+│           │               │   └── volume
+│           │               │       ├── SdkVolumeCRUDTest.java
+│           │               │       └── SdkVolumeOperations.java
+│           │               ├── service
+│           │               │   ├── IcebergRestCatalogTest.java
+│           │               │   └── iceberg
+│           │               │       └── MetadataServiceTest.java
+│           │               └── utils
+│           │                   ├── FileUtilsTest.java
+│           │                   ├── PopulateTestDatabase.java
+│           │                   ├── SqlNameValidationTest.java
+│           │                   └── TestUtils.java
+│           └── resources
+│               ├── iceberg.metadata.json
+│               └── simple-v1-iceberg.metadata.json
+├── tests
+│   ├── test_tarball_generation.py
+│   └── test_tutorial.py
+├── uc-cli.dockerfile
+└── version.sbt
+
+121 directories, 254 files
